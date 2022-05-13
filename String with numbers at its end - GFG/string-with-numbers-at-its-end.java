@@ -24,22 +24,33 @@ class GFG {
 //User function Template for Java
 
 class Solution {
-    int isSame(String s) {
+    int isSame(String str) {
         // code here
-        int n = s.length();
-        int num = 0;
-        int len = n;
-        for(int i = n-1; i > 0; i--){
-            num = num + Integer.parseInt(s.charAt(i)+"")*(int)Math.pow(10, n-i-1);
-            len--;
-            if(num == len){
-                if(s.charAt(i-1) >= '0' && s.charAt(i-1) <= '9')
-                    continue;
-                return 1;
+        int n = str.length();
+ 
+        // Traverse string from end and find the number
+        // stored at the end.
+        // x is used to store power of 10.
+        int num = 0, x = 1, i = n - 1;
+        for (i = n - 1; i >= 0; i--)
+        {
+            // if number
+            if ('0' <= str.charAt(i) &&
+                str.charAt(i) <= '9')
+            {
+                num = (str.charAt(i) - '0') * x + num;
+                x = x * 10;
+                if(num>=n)
+                    return 0;
             }
-            if(num > n) break;
+            // break on first character
+            else
+                break;
         }
-        
+ 
+        // Check if number is equal to string
+        // length except that number's digits
+        if(num == i + 1) return 1;
         return 0;
     }
 }
