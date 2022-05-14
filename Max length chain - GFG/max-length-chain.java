@@ -55,14 +55,14 @@ class GfG
     {
        // your code here
     //   Arrays.sort(arr);
-       Arrays.sort(arr,(a,b)->a.y-b.y);
+       Arrays.sort(arr,(a,b)->a.y-b.y); // ORDER DOESNT MATTER
        int[] chain = new int[n];
        int best = 0;
        for(int i = 0; i < n; i++){
            Pair curr = arr[i];
            for(int j = 0; j < i; j++){
                Pair prev = arr[j];
-               if(prev.y < curr.x && chain[i] < chain[j]){
+               if(prev.y < curr.x && chain[i] < chain[j]){ // STRICTLY INC
                    chain[i] = chain[j];
                }
            }
