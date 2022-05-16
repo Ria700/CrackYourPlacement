@@ -38,22 +38,18 @@ class Solution {
     public ArrayList<Integer> dfsOfGraph(int V, ArrayList<ArrayList<Integer>> adj) {
         // Code here
         ArrayList<Integer> ans = new ArrayList<>();
-        
+        Stack<Integer> q = new Stack<>();
         boolean vis[] = new boolean[V];
-        for(int i = 0; i < V; i++){
-            if(!vis[i]) dfs(i, adj, vis, ans);
+        q.push(0);
+        while(!q.isEmpty()){
+            int fn = q.pop();
+            if(vis[fn]) continue;
+            vis[fn] = true;
+            ans.add(fn);
+            for(int i = adj.get(fn).size()-1; i >= 0; i--){
+                q.push(adj.get(fn).get(i));
+            }
         }
         return ans;
-    }
-    
-    public void dfs(int i, ArrayList<ArrayList<Integer>> adj, boolean[] vis, ArrayList<Integer> ans){
-        if(vis[i]) return;
-        
-        vis[i] = true;
-        ans.add(i);
-        
-        for(int j: adj.get(i)){
-            dfs(j, adj, vis, ans);
-        }
     }
 }
