@@ -32,6 +32,36 @@ class DriverClass {
 
 class Solution {
     // Function to detect cycle in a directed graph.
+    public boolean isCyclic(int V, ArrayList<ArrayList<Integer>> adj){
+        // DFS Algo - same as gfg (From Striver)
+        boolean[] vis = new boolean[V];
+        boolean[] dfsvis = new boolean[V];
+        
+        for (int i = 0; i < V; i++)
+            if(!vis[i])
+                if(isCyclicUtil2(i, vis, dfsvis, adj))
+                    return true;
+ 
+        return false;
+    }
+    
+    private boolean isCyclicUtil2(int i, boolean[] vis,
+                                      boolean[]  dfsvis, ArrayList<ArrayList<Integer>> adj)
+    {
+        
+        vis[i] = dfsvis[i] = true;
+        
+        for(int j: adj.get(i)){
+            if(!vis[j]){
+                if(isCyclicUtil2(j, vis, dfsvis, adj)) return true;
+            }else 
+                if(dfsvis[j]) return true;
+        }
+        
+        dfsvis[i] = false;
+        return false;
+    }
+    
     private boolean isCyclicUtil(int i, boolean[] visited,
                                       boolean[] recStack, int V, ArrayList<ArrayList<Integer>> adj)
     {
@@ -59,7 +89,7 @@ class Solution {
     }
  
  
-    public boolean isCyclic(int V, ArrayList<ArrayList<Integer>> adj)
+    public boolean isCyclicFinal(int V, ArrayList<ArrayList<Integer>> adj)
     {
          
         // Mark all the vertices as not visited and
