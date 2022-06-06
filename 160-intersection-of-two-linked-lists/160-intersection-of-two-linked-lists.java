@@ -34,26 +34,43 @@ public class Solution {
         //     pp = getIntersectionNode(headA.next, headB.next); 
         // }
         // return pp;
-        long len1 = calLen(headA);
-        long len2 = calLen(headB);
+//         long len1 = calLen(headA);
+//         long len2 = calLen(headB);
         
-        long temp = len1 - len2;
-        while(temp>0){
-            headA = headA.next;
-            temp--;
-        }
+//         long temp = len1 - len2;
+//         while(temp>0){
+//             headA = headA.next;
+//             temp--;
+//         }
 
-        while(temp<0){
-            headB = headB.next;
-            temp++;
-        }
+//         while(temp<0){
+//             headB = headB.next;
+//             temp++;
+//         }
 
-        while(headA != null && headB!= null){
-            if(headA == headB) return headA;
-            headA = headA.next;
-            headB = headB.next;
+//         while(headA != null && headB!= null){
+//             if(headA == headB) return headA;
+//             headA = headA.next;
+//             headB = headB.next;
+//         }
+//         return null;
+        
+        ListNode tempA = headA, tempB = headB;
+        while(tempA != tempB){ // includes null case as well
+            if(tempA == null){
+                tempA = headB;
+            }else{
+                tempA = tempA.next;
+            }
+            
+            if(tempB == null){
+                tempB = headA;
+            }else{
+                tempB = tempB.next;
+            }
         }
-        return null;
+        
+        return tempA;
     }
     
     public long calLen(ListNode head){
