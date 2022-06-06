@@ -1,1 +1,1 @@
-​
+once two LL intersect, they cant part ways. Bec .next  can have only one val
