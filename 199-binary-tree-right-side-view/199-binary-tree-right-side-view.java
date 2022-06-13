@@ -17,19 +17,22 @@ class Solution {
     public List<Integer> rightSideView(TreeNode root) {
         List<Integer> ans = new ArrayList<>();
       
-        if(root == null) return ans;
+        helper(root, ans, 0);
       
-        LinkedList<TreeNode> q = new LinkedList<>();
-        q.add(root);
-        while(q.size() > 0){
-            ans.add(q.peekLast().val);
-            int size = q.size();
-            while(size-->0){
-                TreeNode fn = q.removeFirst();
-                if(fn.left != null) q.addLast(fn.left);
-                if(fn.right != null) q.addLast(fn.right);
-            }
-        }
         return ans;
+    }
+    
+    public void helper(TreeNode root, List<Integer> ans, int level)
+    {
+        if(root == null){
+            return;
+        }
+      
+        if(level == ans.size()){
+            ans.add(root.val);
+        }
+        
+        helper(root.right, ans, level+1);
+        helper(root.left, ans, level+1);
     }
 }
