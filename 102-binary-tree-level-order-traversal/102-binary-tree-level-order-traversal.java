@@ -17,9 +17,9 @@ class Solution {
     public List<List<Integer>> levelOrder(TreeNode root) {
         List<List<Integer>> ans = new ArrayList<>();
         
-        if(root == null){
-            return ans;
-        }
+//         if(root == null){
+//             return ans;
+//         }
         
         Queue<TreeNode> queue = new LinkedList<>();
         queue.add(root);
@@ -29,14 +29,14 @@ class Solution {
             while(size-->0){
                 TreeNode fn = queue.remove();
                 //since not graph, no need to mark visited
-                // if(fn == null) continue;
+                if(fn == null) continue;
                 temp.add(fn.val);
-                if(fn.left!=null)
+                // if(fn.left!=null)
                 queue.add(fn.left);
-                if(fn.right!=null)
+                // if(fn.right!=null)
                 queue.add(fn.right);
             }
-            // if(temp.size() > 0)
+            if(temp.size() > 0)
             ans.add(temp);
         }
         return ans;
