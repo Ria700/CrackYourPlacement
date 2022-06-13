@@ -133,20 +133,23 @@ class Solution{
         //add code here.
         ArrayList<Integer> ans = new ArrayList<>();
       
-        if(root == null) return ans;
+        helper(root, ans, 0);
       
-        LinkedList<Node> q = new LinkedList<>();
-        q.add(root);
-        while(q.size() > 0){
-            ans.add(q.peekLast().data);
-            int size = q.size();
-            while(size-->0){
-                Node fn = q.removeFirst();
-                if(fn.left != null) q.addLast(fn.left);
-                if(fn.right != null) q.addLast(fn.right);
-            }
-        }
         return ans;
+    }
+    
+    public void helper(Node root, ArrayList<Integer> ans, int level)
+    {
+        if(root == null){
+            return;
+        }
+      
+        if(level == ans.size()){
+            ans.add(root.data);
+        }
+        
+        helper(root.right, ans, level+1);
+        helper(root.left, ans, level+1);
     }
 }
 
