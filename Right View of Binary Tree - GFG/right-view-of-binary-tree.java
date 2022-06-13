@@ -135,22 +135,15 @@ class Solution{
       
         if(root == null) return ans;
       
-        Queue<Node> q = new LinkedList<>();
-        Node last = root;
+        LinkedList<Node> q = new LinkedList<>();
         q.add(root);
         while(q.size() > 0){
-            ans.add(last.data);
+            ans.add(q.peekLast().data);
             int size = q.size();
             while(size-->0){
-                Node fn = q.remove();
-                if(fn.left != null){
-                    q.add(fn.left);
-                    last = fn.left;
-                } 
-                if(fn.right != null){ 
-                    q.add(fn.right);
-                    last = fn.right;
-                }
+                Node fn = q.removeFirst();
+                if(fn.left != null) q.addLast(fn.left);
+                if(fn.right != null) q.addLast(fn.right);
             }
         }
         return ans;
