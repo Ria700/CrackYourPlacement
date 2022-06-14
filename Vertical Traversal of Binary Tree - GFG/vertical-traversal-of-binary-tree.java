@@ -122,38 +122,57 @@ class Solution
         }
     }
     
-    static ArrayList <Integer> verticalOrder(Node root)
+    static void helper(Node root, int x){
+        if(root == null) return;
+        
+        sx = Math.min(sx, x);
+        lx = Math.max(lx, x);
+        
+        helper(root.left, x-1);
+        helper(root.right, x+1);
+    }
+    
+    static int sx;
+    static int lx;
+    static ArrayList<Integer> verticalOrder(Node root)
     {
         // add your code here
+        sx = Integer.MAX_VALUE;
+        lx = Integer.MIN_VALUE;
+        helper(root, 0);
+        int w = lx - sx + 1;
+
         ArrayList<Integer> ans = new ArrayList<>();
+        
+        ArrayList<ArrayList<Integer>> map = new ArrayList<>();
+        for(int i = 0; i < w; i++){
+            map.add(new ArrayList<>());
+        }
         
         if(root == null) return ans;
         
-        HashMap<Integer, ArrayList<Integer>> map = new HashMap<>();
         Queue<Pair> q = new LinkedList<>();
-        q.add(new Pair(root, 0));
+        
+        q.add(new Pair(root, -sx)); // CRUX
+        
         while(q.size() > 0){ //normal level-order
             Pair fn = q.remove();
             
             if(fn.node == null) continue;
             
             // work
-            ArrayList<Integer> list = map.getOrDefault(fn.x, new ArrayList<>());
+            ArrayList<Integer> list = map.get(fn.x);
             list.add(fn.node.data);
-            map.put(fn.x, list);
             
             // further
             q.add(new Pair(fn.node.left, fn.x-1));
             q.add(new Pair(fn.node.right, fn.x+1));
         }
         
-        Set<Integer> set = map.keySet();
-        List<Integer> list = new ArrayList<Integer>(set);
-        Collections.sort(list);
-        // Collections.sort(set);
+
         
-        for(int key: list){
-            ans.addAll(map.get(key));
+        for(ArrayList<Integer> list: map){
+            ans.addAll(list);
         }
         
         return ans;
