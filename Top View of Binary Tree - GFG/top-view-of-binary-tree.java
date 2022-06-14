@@ -137,19 +137,38 @@ class Solution
         }
     }
     
+    static void helper(Node root, int x){
+        if(root == null) return;
+        
+        sx = Math.min(sx, x);
+        lx = Math.max(lx, x);
+        
+        helper(root.left, x-1);
+        helper(root.right, x+1);
+    }
+    
+    static int sx;
+    static int lx;
     static ArrayList<Integer> topView(Node root)
     {
         // add your code here
+        // Code here
+        sx = Integer.MAX_VALUE;
+        lx = Integer.MIN_VALUE;
+        helper(root, 0);
+        int w = lx - sx + 1;
+
         ArrayList<Integer> ans = new ArrayList<>();
+        
+        for(int i = 0; i < w; i++){
+            ans.add(-1);
+        }
         
         if(root == null) return ans;
         
-        HashMap<Integer, ArrayList<Integer>> map = new HashMap<>();
         Queue<Pair> q = new LinkedList<>();
-        q.add(new Pair(root, 0));
         
-        int sx = Integer.MAX_VALUE;
-        int lx = Integer.MIN_VALUE;
+        q.add(new Pair(root, -sx)); // CRUX
         
         while(q.size() > 0){ //normal level-order
             Pair fn = q.remove();
@@ -157,19 +176,13 @@ class Solution
             if(fn.node == null) continue;
             
             // work
-            ArrayList<Integer> list = map.getOrDefault(fn.x, new ArrayList<>());
-            list.add(fn.node.data);
-            map.put(fn.x, list);
-            sx = Math.min(sx, fn.x);
-            lx = Math.max(lx, fn.x);
+            if(ans.get(fn.x) == -1){
+                ans.set(fn.x, fn.node.data);
+            }
             
             // further
             q.add(new Pair(fn.node.left, fn.x-1));
             q.add(new Pair(fn.node.right, fn.x+1));
-        }
-        
-        for(int i = sx; i <= lx; i++){
-            ans.add(map.get(i).get(0));
         }
         
         return ans;
