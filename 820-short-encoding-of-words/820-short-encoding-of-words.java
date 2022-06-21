@@ -34,7 +34,7 @@ class Solution {
         
 //      M-3: Trie
         int ans = 0;
-         TrieNode root = new TrieNode();
+        TrieNode root = new TrieNode();
         
         for(String word: words){
             insert(root, word);
@@ -70,15 +70,4 @@ class Solution {
             // temp.height += 1;
         }
     }
-    
-    // private void insert(String word) {
-    //     for (int i=word.length()-1; i>=0; i--) {
-    //         char c = word.charAt(i);
-    //         if (root.children[c - 'a'] == null) 
-    //             root.children[c - 'a'] = new TrieNode();
-    //         int prevHeight = root.height;
-    //         root = root.children[c - 'a'];
-    //         root.height = prevHeight + 1;
-    //     }
-    // }
 }
