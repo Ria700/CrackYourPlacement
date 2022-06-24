@@ -34,7 +34,7 @@ class WordDictionary {
             char c = word.charAt(i);
             if(c == '.'){
                 for(TrieNode child: temp.children) {
-                    if(child!=null && search(word.substring(i+1, word.length()), child))
+                    if(child!=null && search(word.substring(i+1), child))
                         return true;
                 }
                 return false;
