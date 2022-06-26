@@ -5,7 +5,6 @@ class Solution {
         int min = Integer.MAX_VALUE;
         
         int fac = n-k;
-        System.out.println(fac);
         while(en < n){
             total += cardPoints[en];
             int wSize = en-st;
@@ -21,7 +20,6 @@ class Solution {
         
         if(k == n) return total;
         if(sum < min) min = sum;
-        System.out.println(total + " " + min);
         return total - min;
     }
 }
