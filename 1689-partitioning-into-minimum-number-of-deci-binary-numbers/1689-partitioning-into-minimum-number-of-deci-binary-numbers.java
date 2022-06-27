@@ -2,7 +2,9 @@ class Solution {
     public int minPartitions(String n) {
         int max = 0;
         for(char c: n.toCharArray()){
-            if(c-'0' > max) max = c-'0';
+            int digit = c-'0';
+            if(digit == 9) return 9;
+            if(digit > max) max = digit;
         }
         return max;
     }
