@@ -1,47 +1,41 @@
 class Solution {
-    int color = 0; 
     public int largestIsland(int[][] grid) {
-        int max = 0;
-        boolean flag = false;
         int n = grid.length;
+        int level = 1, max = 1;
+        int flag = 1;
         int[][] vis = new int[n][n];
         for(int i = 0; i < n; i++){
             for(int j = 0; j < n; j++){
                 if(grid[i][j] == 0){
-                    flag = true;
+                    flag = 0;
                     grid[i][j] = 1;
-                    color++;
-                    int dfs = dfsCount(grid, i, j, vis);
-                    if(dfs > max) max = dfs;
+                    max = Math.max(max, dfs(grid, i, j, level, vis));
+                    if(max == n*n) return max;
+                    level++;
                     grid[i][j] = 0;
                 }
             }
         }
         
-        if(!flag){
-            max = n*n;
-        }
+        if(flag == 1) return n*n;
         return max;
     }
     
-    int[][] dir = {{1, 0}, {0, 1}, {0, -1}, {-1, 0}};
-    public int dfsCount(int[][] grid, int i, int j, int[][] vis){
-        int n = grid.length;
-        if(i < 0 || j < 0 || i >= n || j >= n || grid[i][j] == 0 || vis[i][j] == color){
-            return 0;
+    int[][] dir = {{0, 1}, {1, 0}, {-1, 0}, {0, -1}};
+    public int dfs(int[][] grid, int i, int j, int level, int vis[][]) {
+        
+        vis[i][j] = level;
+        
+        int ans = 0;
+        for(int r[]: dir){
+            int row = i + r[0];
+            int col = j + r[1];
+            
+            if(row < 0 || col < 0 || row >= grid.length || col >= grid.length || grid[row][col] != 1 || vis[row][col] == level) continue;
+            
+            ans += dfs(grid, row, col, level, vis);
         }
         
-        // System.out.println(i+" "+j);
-        vis[i][j] = color;
-        
-        int count = 1;
-        for(int k = 0; k < 4; k++){
-            int row = i + dir[k][0];
-            int col = j + dir[k][1];
-            count += dfsCount(grid, row, col, vis);  
-        }
-        
-        // vis[i][j] = false;
-        return count;
+        return ans+1;
     }
 }
