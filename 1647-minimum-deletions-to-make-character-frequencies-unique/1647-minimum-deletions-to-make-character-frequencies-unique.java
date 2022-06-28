@@ -1,32 +1,22 @@
 class Solution {
     public int minDeletions(String s) {
-        HashMap<Character, Integer> map = new HashMap<>();
+        int[] frq = new int[26];
         for(char c: s.toCharArray()){
-            int freq = map.getOrDefault(c, 0);
-            map.put(c, freq+1);
+            frq[c-'a']++;
         }
-
-        HashSet<Integer> set = new HashSet<>();
-        int deletions = 0;
-        for(char c: map.keySet()){
-            int key = map.get(c);
-            while(key!=0 && set.contains(key)){
-                key--;
-                deletions++;
+        
+        Arrays.sort(frq);
+        
+        int maxFreq = s.length(), del = 0;
+        for(int i = 25; i >= 0 && frq[i] > 0; i--){ // non-inc order
+            if(frq[i] > maxFreq){
+                del += frq[i] - maxFreq;
+                frq[i] = maxFreq;
             }
-            set.add(key);
+            
+            maxFreq = Math.max(0, frq[i] - 1);
         }
-        return deletions;
+        
+        return del;
     }
 }
-
-        
-//         HashMap<Integer, Integer> freqMap = new HashMap<>();
-//         for(char c: map.keySet()){
-//             int key = map.get(c);
-//             int freq = freqMap.getOrDefault(key, 0);
-//             freqMap.put(key, freq+1);
-//         }
-        
-//         Collections.sort(freqMap.asList());
-        
