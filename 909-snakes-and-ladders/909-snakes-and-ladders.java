@@ -21,34 +21,30 @@ class Pair{
     
 class Solution {
     public int snakesAndLadders(int[][] board) {
-        int n = board.length;
-        boolean[][] vis = new boolean[n][n];
-        int steps = 0;
+        int n = board.length, level = 0;
+        boolean[] vis = new boolean[n*n + 1];
         Queue<Integer> q = new LinkedList<>();
         q.add(1);
-        vis[n-1][0] = true;
         while(!q.isEmpty()){
             int size = q.size();
             while(size-->0){
                 int rem = q.remove();
-                if(rem == n*n) return steps;
+                if(rem == n*n) return level;
+                vis[rem] = true;
                 for(int i = 1; i <= 6; i++){
                     if(rem+i > n*n) break;
-                    int[] time = returnCoor(rem+i, n);
-                    int r = time[0];
-                    int c = time[1];
-                    if(vis[r][c]) continue;
-                    vis[r][c] = true;
-                    if(board[r][c] == -1) q.add(rem+i);
-                    else q.add(board[r][c]);
+                    int u = returnCoor(rem+i, n, board);
+                    if(u==-1) u = rem+i;
+                    if(!vis[u]) q.add(u);
                 }
+                
             }
-            steps++;
+            level++;
         }
         return -1;
     }
     
-    public int[] returnCoor(int num, int n){
+    public int returnCoor(int num, int n, int[][] grid){
         int row = 0, col = 0;
         
         row = n-1-(num-1)/n;
@@ -58,6 +54,7 @@ class Solution {
         else
             col = (num-1)%n;
         
-        return new int[]{row, col};
+        
+        return grid[row][col];
     }
 }
