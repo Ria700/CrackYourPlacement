@@ -54,8 +54,7 @@ class Solution {
         for(int j: adj.get(i)){
             if(!vis[j]){
                 if(isCyclicUtil2(j, vis, dfsvis, adj)) return true;
-            }else 
-                if(dfsvis[j]) return true;
+            }else if(dfsvis[j]) return true;
         }
         
         dfsvis[i] = false;
