@@ -7,11 +7,10 @@ class Solution {
                 ans += i[0]*i[1];
                 truckSize -= i[0];
             }else{
-                while(truckSize>0){
-                    ans += i[1];
-                    truckSize -= 1;
-                }
+                ans += truckSize*i[1];
+                truckSize = 0;
             }
+            if(truckSize == 0) break;
         }
         return ans;
     }
