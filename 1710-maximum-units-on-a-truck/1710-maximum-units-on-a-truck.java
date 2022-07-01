@@ -8,9 +8,8 @@ class Solution {
                 truckSize -= i[0];
             }else{
                 ans += truckSize*i[1];
-                truckSize = 0;
+                return ans;
             }
-            if(truckSize == 0) break;
         }
         return ans;
     }
