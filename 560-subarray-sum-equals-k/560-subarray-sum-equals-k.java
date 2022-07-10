@@ -1,20 +1,21 @@
 class Solution {
-    public int subarraySum(int[] nums, int k) {
+    public int subarraySum(int[] A, int K) {
+        // HashMap- value vs frequency
         HashMap<Integer, Integer> map = new HashMap<>();
-        int sum = 0;
-        int count = 0;
-        int n = nums.length;
-        
-        for(int i = 0; i < n; i++) {
-            sum += nums[i];
-            if (sum == k) {
-                count++;
+        int currsum = 0, ans = 0;
+        map.put(0, 1);
+        for(int i = 0; i < A.length; i++){
+            currsum += A[i];
+            
+            //calc ans
+            if(map.containsKey(currsum - K)){
+                ans+=map.get(currsum - K);
             }
-            if (map.containsKey(sum - k)) {
-                count += map.get(sum - k);
-            }
-            map.put(sum, map.getOrDefault(sum, 0) + 1);
+            
+            // later: to avoid subarray len = 0
+            int s = map.getOrDefault(currsum, 0);
+            map.put(currsum, s+1);
         }
-        return count;
+        return ans;
     }
 }
