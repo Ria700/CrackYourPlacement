@@ -35,14 +35,11 @@ class Solution {
                 if(j-i > max){
                     max = j-i;
                 }
-                if(j == s.length()) break;
-            }else{
-                while(map.size() > k){
-                    char ch = s.charAt(i);
-                    map.put(ch, map.get(ch)-1);
-                    if(map.get(ch) == 0) map.remove(ch);
-                    i++;
-                }
+            }else if(map.size() > k){
+                char ch = s.charAt(i);
+                map.put(ch, map.get(ch)-1);
+                if(map.get(ch) == 0) map.remove(ch);
+                i++;
             }
         }
 
