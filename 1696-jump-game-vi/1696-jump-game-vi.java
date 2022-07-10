@@ -62,16 +62,41 @@ class Solution {
         // return ans;
         
         // M-5: DP with monotone queue
-        int[] dp = new int[n];
-        dp[n-1] = nums[n-1];
-        Deque<Integer> q = new LinkedList<>();
-        q.add(n-1);
-        for(int i = n-2; i >= 0; i--){
-            while(q.size() > 0 && q.peekFirst() > i+k) q.removeFirst();
-            dp[i] = nums[i] + dp[q.peekFirst()];
-            while(q.size() > 0 && dp[q.peekLast()] < dp[i]) q.removeLast();
-            q.addLast(i);
+        // TC: O(n)
+        // SC: O(n + k)
+        // int[] dp = new int[n];
+        // dp[n-1] = nums[n-1];
+        // Deque<Integer> q = new LinkedList<>();
+        // q.add(n-1);
+        // for(int i = n-2; i >= 0; i--){
+        //     while(q.size() > 0 && q.peekFirst() > i+k) q.removeFirst();
+        //     dp[i] = nums[i] + dp[q.peekFirst()];
+        //     while(q.size() > 0 && dp[q.peekLast()] < dp[i]) q.removeLast();
+        //     q.addLast(i);
+        // }
+        // return dp[0];
+        
+        // M-6: Heap
+        //tc = o(nlogk) sc = o(k)
+        //score, index
+        PriorityQueue<int[]> pq = new PriorityQueue<>((a,b)->b[0]-a[0]);
+        
+        if(nums.length==0)
+            return 0;
+        
+        pq.add(new int[]{nums[0],0});
+        
+        int maxScore = nums[0];
+        
+        for(int i = 1 ;i<nums.length;i++){
+            while(!(i-pq.peek()[1]<=k)){
+                pq.poll();
+            }
+            int[]cur = pq.peek();
+            maxScore = nums[i] + cur[0];
+            pq.add(new int[]{maxScore,i});
         }
-        return dp[0];
+        
+        return maxScore;
     }
 }
