@@ -130,10 +130,11 @@ class Solution {
         // Your code here
         if(node == null) return;
         
-        mirror(node.left);
-        mirror(node.right);
         Node extra = node.left;
         node.left = node.right;
         node.right = extra;
+        
+        mirror(node.left);
+        mirror(node.right);
     }
 }
