@@ -1,4 +1,5 @@
 class Solution {
+    // same k-partion into = subsets WITH NECESSARY ABSTRACTION
     public boolean makesquare(int[] nums) {
     	if (nums == null || nums.length < 4) return false;
         int sum = 0;
