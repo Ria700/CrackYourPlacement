@@ -105,34 +105,31 @@ class Solution
     public int isPairPresent(Node root, int target)
     {
         // Write your code here
-        if(travelfind(root, root, target)>0) return 1;
-        return 0;
-        
-    }
-    
-    public int travelfind(Node root, Node node, int target)
-    {
-        // Write your code here
-        if(root == null || node == null) return 0;
-        
-        int ans = travelfind(root, node.left, target);
-        
-        int com = target-node.data;
-        if(com > node.data){
-            if(find(root, com)) ans++;
+        // M-2: Inorder and two pointer
+        ArrayList<Integer> inorder = inorderBST(root);
+        int count = 0;
+
+        int i = 0, j = inorder.size()-1;
+        while(i < j){
+            int sum = inorder.get(i) + inorder.get(j);
+            if(sum < target) i++;
+            else if(sum == target){
+                return 1;
+            }
+            else j--;
         }
-        
-        ans += travelfind(root, node.right, target);
-        return ans;
-        
+        return 0;
     }
     
-    public boolean find(Node root, int target){
-        if(root == null) return false;
-        if(target < root.data) return find(root.left, target);
-        else if(target > root.data) return find(root.right, target);
-        else return true;
+    public ArrayList<Integer> inorderBST(Node root){
+        if(root == null) return new ArrayList<>();
         
+        ArrayList<Integer> ans = inorderBST(root.left);
         
+        ans.add(root.data);
+        
+        ans.addAll(inorderBST(root.right));
+        
+        return ans;
     }
 }
