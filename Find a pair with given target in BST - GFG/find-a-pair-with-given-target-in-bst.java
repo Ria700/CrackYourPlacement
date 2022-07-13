@@ -102,34 +102,65 @@ class Solution
 {
     // root : the root Node of the given BST
     // target : the target sum
+    // M-3: Iterative inorder
+    class pair{
+        Node node;
+        int state;
+        
+        pair(Node a, int b){
+            node = a;
+            state = b;
+        }
+    }
+    
     public int isPairPresent(Node root, int target)
     {
         // Write your code here
-        // M-2: Inorder and two pointer
-        ArrayList<Integer> inorder = inorderBST(root);
-        int count = 0;
-
-        int i = 0, j = inorder.size()-1;
-        while(i < j){
-            int sum = inorder.get(i) + inorder.get(j);
-            if(sum < target) i++;
-            else if(sum == target){
-                return 1;
-            }
-            else j--;
+        Stack<pair> ls = new Stack<>();
+        Stack<pair> rs = new Stack<>();
+        
+        ls.add(new pair(root, 0));
+        rs.add(new pair(root, 0));
+        
+        Node left = getNextIterInorder(ls);
+        Node right = getNexReverseIterInorder(rs);
+        while(left.data < right.data){
+            int sum = left.data+right.data;
+            if(sum == target) return 1;
+            else if(sum < target) left = getNextIterInorder(ls);
+            else right = getNexReverseIterInorder(rs);
         }
         return 0;
     }
     
-    public ArrayList<Integer> inorderBST(Node root){
-        if(root == null) return new ArrayList<>();
-        
-        ArrayList<Integer> ans = inorderBST(root.left);
-        
-        ans.add(root.data);
-        
-        ans.addAll(inorderBST(root.right));
-        
-        return ans;
+    private Node getNextIterInorder(Stack<pair> s){
+        while(s.size() > 0){
+            pair top = s.peek();
+            if(top.state == 0){
+                if(top.node.left!= null) s.add(new pair(top.node.left, 0));
+                top.state++;
+            }else if(top.state == 1){
+                if(top.node.right!= null) s.add(new pair(top.node.right, 0));
+                top.state++;
+                return top.node;
+            }else s.pop();
+        }
+        return null;
+    }
+    
+    private Node getNexReverseIterInorder(Stack<pair> s){
+        while(s.size() > 0){
+            pair top = s.pop();
+            if(top.node == null) continue;
+            if(top.state == 0){
+                s.add(new pair(top.node, top.state+1));
+                s.add(new pair(top.node.right, 0));
+            }else if(top.state == 1){
+                s.add(new pair(top.node, top.state+1));
+                s.add(new pair(top.node.left, 0));
+                return top.node;
+            }
+        }
+        return null;
     }
 }
