@@ -15,22 +15,23 @@
  */
 class Solution {
     public TreeNode buildTree(int[] preorder, int[] inorder) {
-        return buildTree(preorder, inorder, 0, inorder.length-1, 0, inorder.length-1);
+        return helper(preorder, inorder, 0, inorder.length-1, 0, inorder.length-1);
     }
     
-    public TreeNode buildTree(int[] preorder, int[] inorder, int pi, int pj, int ii, int ij) {
-        if(pi > pj) return null;
-        if(ii > ij) return null;
-        int idx = ii;
-        while(preorder[pi] != inorder[idx]){
-            idx++;
-        }
-        int col = idx-ii;
+    public TreeNode helper(int[] preorder, int[] inorder, int ps, int pe, int is, int ie)
+    {
+        if(is > ie) return null;
         
-        TreeNode root = new TreeNode(preorder[pi]);
-        root.left = buildTree(preorder, inorder, pi+1, pi+col, ii, ii+idx-1);
-        root.right = buildTree(preorder, inorder, pi+col+1, pj, idx+1, ij);
+        if(is == ie) return new TreeNode(inorder[is]);
         
+        int rootval = preorder[ps];
+        TreeNode root = new TreeNode(rootval);
+        int idx = is;
+        while(inorder[idx] != rootval) idx++;
+        int col = idx-is;
+        
+        root.left = helper(preorder, inorder, ps+1, ps+col, is, idx-1);
+        root.right = helper(preorder, inorder, ps+col+1, pe, idx+1, ie);
         return root;
     }
 }
