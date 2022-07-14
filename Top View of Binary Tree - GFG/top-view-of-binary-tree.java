@@ -127,62 +127,52 @@ class Solution
 {
     //Function to return a list of nodes visible from the top view 
     //from left to right in Binary Tree.
-    static class Pair{
+    static class pair{
+        int x;
         Node node;
-        int x; //vln
         
-        Pair(Node a, int b){
-            node = a;
+        pair(Node a, int b){
             x = b;
+            node = a;
         }
     }
-    
+    static int sx, lx;
     static void helper(Node root, int x){
         if(root == null) return;
         
-        sx = Math.min(sx, x);
-        lx = Math.max(lx, x);
-        
+        sx = Math.min(x, sx);
+        lx = Math.max(x, lx);
+
         helper(root.left, x-1);
         helper(root.right, x+1);
     }
     
-    static int sx;
-    static int lx;
     static ArrayList<Integer> topView(Node root)
     {
-        // add your code here
-        // Code here
-        sx = Integer.MAX_VALUE;
-        lx = Integer.MIN_VALUE;
-        helper(root, 0);
-        int w = lx - sx + 1;
-
-        ArrayList<Integer> ans = new ArrayList<>();
+        // add your code
+        sx = 0;
+        lx = 0;
         
+        helper(root, 0);
+        
+        int w = lx-sx+1;
+        ArrayList<Integer> ans = new ArrayList<>();
         for(int i = 0; i < w; i++){
             ans.add(-1);
         }
         
-        if(root == null) return ans;
+        Queue<pair> q = new LinkedList<>();
+        q.add(new pair(root, -sx));
         
-        Queue<Pair> q = new LinkedList<>();
-        
-        q.add(new Pair(root, -sx)); // CRUX
-        
-        while(q.size() > 0){ //normal level-order
-            Pair fn = q.remove();
+        while(q.size() > 0) {
+            pair rem = q.remove();
             
-            if(fn.node == null) continue;
+            if(rem.node == null) continue;
             
-            // work
-            if(ans.get(fn.x) == -1){
-                ans.set(fn.x, fn.node.data);
-            }
+            if(ans.get(rem.x) == -1) ans.set(rem.x, rem.node.data);
             
-            // further
-            q.add(new Pair(fn.node.left, fn.x-1));
-            q.add(new Pair(fn.node.right, fn.x+1));
+            q.add(new pair(rem.node.left, rem.x-1));
+            q.add(new pair(rem.node.right, rem.x+1));
         }
         
         return ans;
