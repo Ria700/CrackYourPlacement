@@ -53,39 +53,42 @@ public class Main {
 
 class GFG 
 {
-    class Meta{
+    class meta{
         int min, max;
         Node parent;
         
-        public Meta(int a, int b, Node c){
+        meta(int a , int b, Node c){
             min = a;
             max = b;
             parent = c;
         }
     }
+    
     //Function to construct the BST from its given level order traversal.
     public Node constructBST(int[] arr)
     {
         //Write your code here 
-        Queue<Meta> q = new LinkedList<>();
-        Node root = null;
         int i = 0;
-        q.add(new Meta(Integer.MIN_VALUE, Integer.MAX_VALUE, null));
+        
+        Node root = null;
+        
+        Queue<meta> q = new LinkedList<>();
+        q.add(new meta(Integer.MIN_VALUE, Integer.MAX_VALUE, null));
         
         while(i < arr.length && q.size() > 0){
-            Meta fn = q.remove();
-            if(arr[i] > fn.min && arr[i] < fn.max){
-                Node node = new Node(arr[i]);
-                if(fn.parent == null) root = node;
-                else if(node.data < fn.parent.data)
-                    fn.parent.left = node;
-                else
-                    fn.parent.right = node;
-                    
-                q.add(new Meta(fn.min, node.data, node));
-                q.add(new Meta(node.data, fn.max, node));
-                
+            meta fn = q.remove();
+            
+            int data = arr[i];
+            if(data > fn.min && data < fn.max){
+                Node node = new Node(data);
                 i++;
+                
+                if(fn.parent == null) root = node;
+                else if(data < fn.parent.data) fn.parent.left = node;
+                else fn.parent.right = node;
+                
+                q.add(new meta(fn.min, data, node));
+                q.add(new meta(data, fn.max, node));
             }
         }
         return root;
