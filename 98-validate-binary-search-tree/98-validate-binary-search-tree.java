@@ -14,18 +14,24 @@
  * }
  */
 class Solution {
-    TreeNode prev = null;
+    TreeNode prev;
     public boolean isValidBST(TreeNode root) {
-        if(root == null) return true;
+        prev = null;
+        return helper(root);
+    }
+    
+    // inorder recursive
+    public boolean helper(TreeNode curr) {
+        if(curr == null) return true;
             
-        boolean la = isValidBST(root.left);
+        boolean la = helper(curr.left);
         if(!la) return false;
         
         // work
-        if(prev != null && prev.val >= root.val) return false;
-        prev = root;
+        if(prev != null && prev.val >= curr.val) return false;
+        prev = curr;
         
-        boolean ra = isValidBST(root.right);
+        boolean ra = helper(curr.right);
         return ra;
     }
 }
