@@ -9,33 +9,35 @@
  * }
  */
 class Solution {
-    public ListNode reverseBetween(ListNode head, int left, int right) {
-        if(head.next == null) return head;
-        
-        ListNode curr = head, lh = head;
-        for(int i = 1; i < left; i++) {
-            lh = curr;
-            curr = curr.next;
-        }
-        
-        ListNode prev = curr;
-        curr = curr.next;
-        
-        for(int i = left; i < right; i++) {
-            ListNode temp = curr.next;
-            curr.next = prev;
-            
-            prev = curr;
-            curr = temp;
-        }
-               
-        if(left != 1){
-            lh.next.next = curr; // tail of reversed ll
-            lh.next = prev;
-        }else{
-            lh.next = curr;
-            head = prev;
-        }   
+    ListNode left;
+    boolean stop;
+    public ListNode reverseBetween(ListNode head, int lft, int right) {
+        left = head;
+        stop = false;
+        helper(head, lft, right);
         return head;
+    }
+    
+    // abstraction
+    private void helper(ListNode right, int m, int n) {
+        if(n == 0) return;
+        
+        if(m > 1) left = left.next; // to reach the the mth node - start of LL we want to reverse
+        
+        helper(right.next, m-1, n-1);
+        
+        // work
+        if(left == right || right.next == left) {
+            stop = true;
+            return;
+        }
+            
+        if(!stop){
+            int t = left.val;
+            left.val = right.val;
+            right.val = t;
+
+            left = left.next; // for further working
+        }
     }
 }
