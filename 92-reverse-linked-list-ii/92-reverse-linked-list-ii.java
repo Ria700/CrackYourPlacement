@@ -20,11 +20,12 @@ class Solution {
     
     // abstraction
     private void helper(ListNode right, int m, int n) {
-        if(n == 0) return;
+        if(n == 1) return;
         
         if(m > 1) left = left.next; // to reach the the mth node - start of LL we want to reverse
         
-        helper(right.next, m-1, n-1);
+        right = right.next;
+        helper(right, m-1, n-1);
         
         // work
         if(left == right || right.next == left) {
