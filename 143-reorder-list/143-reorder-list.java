@@ -24,7 +24,8 @@ class Solution {
         ListNode dh = new ListNode(-1);
         ListNode dt = dh;
         boolean flag = true;
-        while(head!=null || sh!=null) {
+        while(head!=null || sh!=null) { //terminate only when both are null
+                                    //flag saves null pointer exception
             if(flag) {
                 dt.next = head;
                 head = head.next;
@@ -37,7 +38,8 @@ class Solution {
             dt=dt.next;
         }
         
-        head = dh.next;
+        // since we have managed pointers LL is reorderd
+        // head = dh.next;
             
     }
     
