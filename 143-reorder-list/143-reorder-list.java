@@ -9,33 +9,58 @@
  * }
  */
 class Solution {
-    ListNode left;
-    boolean stop;
     public void reorderList(ListNode head) {
-        stop = false;
-        left = head;
-        helper(head);
-    }
-    
-    private void helper(ListNode right) {
-        if(right.next == null) return;
+        // midpoint
+        ListNode mid = midPoint(head);
         
-        right = right.next;
-        helper(right);
+        // break
+        ListNode sh = mid.next;
+        mid.next = null;
         
-        if(stop) return;
+        // reverse
+        sh = reverseList(sh);
         
-        if(right == left || left.next == right) {
-            stop = true;
-            right.next = null;
-            return;
+        // merge
+        ListNode dh = new ListNode(-1);
+        ListNode dt = dh;
+        boolean flag = true;
+        while(head!=null || sh!=null) {
+            if(flag) {
+                dt.next = head;
+                head = head.next;
+                flag = false;
+            } else {
+                dt.next = sh;
+                sh = sh.next;
+                flag = true;
+            }
+            dt=dt.next;
         }
         
-        ListNode temp = null;
-        temp = left.next;
-        left.next = right;
-        right.next = temp;
+        head = dh.next;
+            
+    }
+    
+    private ListNode midPoint(ListNode head) {
+        ListNode small = head, fast = head;
+        while(fast.next != null && fast.next.next != null) {
+            small = small.next;
+            fast = fast.next.next;
+        }
+        return small;
+    }
+    
+    private ListNode reverseList(ListNode head) {
+        if(head == null || head.next == null) return head;
         
-        left = temp; // further
+        ListNode curr = head, prev = null;
+        while(curr!=null) {
+            ListNode temp = curr.next;
+            curr.next = prev;
+            
+            prev = curr;
+            curr = temp;
+        }
+        return prev;
     }
 }
