@@ -10,49 +10,40 @@
  */
 class Solution {
     public ListNode sortList(ListNode head) {
-    if (head == null || head.next == null)
-      return head;
+        if(head == null || head.next == null) return head;
+        ListNode mid = midPoint(head);
+        ListNode sh = mid.next;
+        mid.next = null;
+        ListNode lh = sortList(head), rh = sortList(sh);
+        return mergeList(lh, rh);
+    }
+    
+    private ListNode mergeList(ListNode l1, ListNode l2) {
+        ListNode dh = new ListNode(-1);
+        ListNode dt = dh;
         
-    // step 1. cut the list to two halves
-    ListNode prev = null, slow = head, fast = head;
-    
-    while (fast != null && fast.next != null) {
-      prev = slow;
-      slow = slow.next;
-      fast = fast.next.next;
+        ListNode t1 = l1, t2 = l2;
+        while(t1!=null && t2!=null) {
+            if(t1.val < t2.val) {
+                dt.next = t1;
+                t1 = t1.next;
+            } else {
+                dt.next = t2;
+                t2 = t2.next;
+            }
+            dt=dt.next;
+        }
+        if(t1!=null) dt.next = t1;
+        else if(t2!=null) dt.next = t2;
+        return dh.next;
     }
     
-    prev.next = null;
-    
-    // step 2. sort each half
-    ListNode l1 = sortList(head);
-    ListNode l2 = sortList(slow);
-    
-    // step 3. merge l1 and l2
-    return merge(l1, l2);
-  }
-  
-  ListNode merge(ListNode l1, ListNode l2) {
-    ListNode l = new ListNode(0), p = l;
-    
-    while (l1 != null && l2 != null) {
-      if (l1.val < l2.val) {
-        p.next = l1;
-        l1 = l1.next;
-      } else {
-        p.next = l2;
-        l2 = l2.next;
-      }
-      p = p.next;
+    private ListNode midPoint(ListNode head) {
+        ListNode small = head, fast = head;
+        while(fast.next != null && fast.next.next != null) {
+            small = small.next;
+            fast = fast.next.next;
+        }
+        return small;
     }
-    
-    if (l1 != null)
-      p.next = l1;
-    
-    if (l2 != null)
-      p.next = l2;
-    
-    return l.next;
-  }
-
 }
