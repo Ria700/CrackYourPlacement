@@ -11,71 +11,40 @@
  */
 public class Solution {
     public ListNode getIntersectionNode(ListNode headA, ListNode headB) {
-        // while(headA != null && headB!= null){
-        //     if(headA == headB) return headA;
-        //     headA = headA.next;
-        //     headB = headB.next;
-        // }
-        // return null;
-        // if(headA == headB) return headA;
-        // ListNode pp = null;
-        // if(headA.next == null && headB.next == null){
-        //     if(headA == headB) return headA;
-        //     else return null;
-        // }
-        // else if(headA.next == null){
-        //     pp = getIntersectionNode(headA, headB.next); 
-        //     if(headA == headB.next) return headA;
-        // }
-        // else if(headB.next == null){
-        //     pp = getIntersectionNode(headA.next, headB.next); 
-        //     if(headA.next == headB) return headA;
-        // }else{
-        //     pp = getIntersectionNode(headA.next, headB.next); 
-        // }
-        // return pp;
-//         long len1 = calLen(headA);
-//         long len2 = calLen(headB);
+        if(headA == null || headB == null) return null;
         
-//         long temp = len1 - len2;
-//         while(temp>0){
-//             headA = headA.next;
-//             temp--;
-//         }
-
-//         while(temp<0){
-//             headB = headB.next;
-//             temp++;
-//         }
-
-//         while(headA != null && headB!= null){
-//             if(headA == headB) return headA;
-//             headA = headA.next;
-//             headB = headB.next;
-//         }
-//         return null;
+        ListNode tail = headA;
+        while(tail.next != null) tail = tail.next;
         
-        ListNode tempA = headA, tempB = headB;
-        while(tempA != tempB){ // includes null case as well
-            if(tempA == null){
-                tempA = headB;
-            }else{
-                tempA = tempA.next;
-            }
-            
-            if(tempB == null){
-                tempB = headA;
-            }else{
-                tempB = tempB.next;
-            }
-        }
+        tail.next = headB;
         
-        return tempA;
+        ListNode ans = detectCycle(headA);
+        
+        tail.next = null;
+        
+        return ans;
     }
     
-    public long calLen(ListNode head){
-        if(head == null) return 0;
-        long count = calLen(head.next) + 1;
-        return count;
+    public ListNode detectCycle(ListNode head) {
+        if(head == null || head.next == null) return null;
+        
+        ListNode slow = head, fast = head;
+        
+        while(fast!=null && fast.next!=null) {
+            slow = slow.next;
+            fast = fast.next.next;
+            
+            if(slow == fast) break;
+        }
+        
+        if(slow!=fast) return null;
+        
+        slow = head;
+        while(slow!=fast) {
+            slow = slow.next;
+            fast = fast.next;
+        }
+        
+        return slow;
     }
 }
