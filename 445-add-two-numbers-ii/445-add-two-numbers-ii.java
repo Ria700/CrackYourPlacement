@@ -9,46 +9,42 @@
  * }
  */
 class Solution {
-    ListNode head;
     public ListNode addTwoNumbers(ListNode l1, ListNode l2) {
-        head = null;
-        int carry = helper(l1, size(l1), l2, size(l2));
-        if(carry != 0) {
-            ListNode nn = new ListNode(carry);
-            nn.next = head;
-            head = nn;
-        }
-        return head;
-    }
-    
-    private int helper(ListNode l1, int pv1, ListNode l2, int pv2){
-        if(pv1 == 0) return 0;
+        if(l1 == null || l2 == null) return (l1 == null)?l2:l1;
         
-        int sum = 0;
-        if(pv1 > pv2) {
-            int oc = helper(l1.next, pv1-1, l2, pv2);
-            sum = l1.val + oc;
-        } else if(pv1 < pv2) {
-            int oc = helper(l1, pv1, l2.next, pv2-1);
-            sum = l2.val + oc;
-        } else {
-            int oc = helper(l1.next, pv1-1, l2.next, pv2-1);
-            sum = l1.val + l2.val + oc;
+        ListNode dummy = new ListNode(-1);
+        ListNode t1 = reverse(l1), t2 = reverse(l2), dt = dummy;
+        int carry = 0;
+        
+        while(t1!=null || t2!=null || carry!=0) {
+            int sum = (t1==null?0:t1.val) + (t2==null?0:t2.val) + carry;
+            
+            ListNode nn = new ListNode(sum%10);
+            carry = sum/10;
+            
+            dt.next = nn;
+            dt = dt.next;
+            
+            if(t1!=null) t1=t1.next;
+            if(t2!=null) t2=t2.next;
         }
         
-        ListNode nn = new ListNode(sum%10);
-        int carry = sum/10;
-        nn.next = head;
-        head = nn;
-        return carry;
+        return reverse(dummy.next);
     }
     
-    private int size(ListNode l){
-        int size = 0;
-        while(l!=null){
-            l = l.next;
-            size++;
+    private ListNode reverse(ListNode head) {
+        if(head == null || head.next == null) return head;
+        
+        ListNode prev = null, curr = head;
+        
+        while(curr!=null) {
+            ListNode next = curr.next;
+            curr.next = prev;
+            
+            prev = curr;
+            curr = next;
         }
-        return size;
+        
+        return prev;
     }
 }
