@@ -16,36 +16,31 @@ class Solution {
     private ListNode[] quickSort(ListNode head) { // returns arr[2]= {head, tail}
         // Base Case
         if(head == null || head.next == null) return new ListNode[]{head, head};
-        int l = len(head);
-        ListNode[] metaData = segregate(head, l/2);
+        
+        ListNode[] metaData = segregate(head);
         ListNode[] small = quickSort(metaData[0]);
         ListNode[] large = quickSort(metaData[2]);
         return mergeSortedLists(small, metaData[1], large);
     }
     
-    private int len(ListNode head) {
-        if(head == null) return 0;
+    private ListNode[] segregate(ListNode head) { // returns arr[3]= {smallHead, pivot, largeHead}
         ListNode curr = head;
         int len = 0;
         while(curr != null) {
             len++;
             curr = curr.next;
         }
-        return len;
-    }
-    
-    private ListNode[] segregate(ListNode head, int pivotPos) { // returns arr[3]= {smallHead, pivot, largeHead}
-        
         ListNode pivot = head;
+        int pivotPos = len/2;
         while(pivotPos-->0) {
             pivot = pivot.next;
         }
-        ListNode curr = head;
+        curr = head;
         ListNode smaller = new ListNode(-1);
         ListNode larger = new ListNode(-1);
         ListNode st = smaller, lt = larger;
         while(curr != null) {
-            if(curr != pivot){
+            if(curr!=pivot){
                 if(curr.val > pivot.val) {
                     lt.next = curr;
                     lt = lt.next;
