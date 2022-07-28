@@ -19,13 +19,23 @@ class Solution {
         // return true;
         
         // M-3
-        char[] sarr = s.toCharArray();
-        char[] tarr = t.toCharArray();
-        // char arry string - new String(sarr);
-        Arrays.sort(sarr);
-        Arrays.sort(tarr);
-        for(int i = 0; i < sarr.length; i++) {
-            if(sarr[i]!=tarr[i]) return false;
+        // char[] sarr = s.toCharArray();
+        // char[] tarr = t.toCharArray();
+        // // char arry string - new String(sarr);
+        // Arrays.sort(sarr);
+        // Arrays.sort(tarr);
+        // for(int i = 0; i < sarr.length; i++) {
+        //     if(sarr[i]!=tarr[i]) return false;
+        // }
+        // return true;
+        
+        // M-1
+        int[] letter = new int[26];
+        for(char c: s.toCharArray()) letter[c-'a']++;
+        for(char c: t.toCharArray()) {
+            int freq = letter[c-'a'];
+            if(freq == 0) return false;
+            letter[c-'a']--;
         }
         return true;
     }
