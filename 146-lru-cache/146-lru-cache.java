@@ -1,6 +1,6 @@
 class LRUCache {
 
-    class Node {
+    static class Node {
         int key, val;
         Node prev, next;
         
@@ -66,6 +66,8 @@ class LRUCache {
             removeFirst();
         }
         else if(node == tail) {
+            // no need to check size==1 like in removeLast()
+               // bec that case will be handled above
             tail = tail.prev;
             tail.next = null;
             size--;
