@@ -53,10 +53,10 @@ class LRUCache {
     }
     
     private void makeMostRecent(Node node) {
-        if(size > 1) {
+        // if(size > 1) {
             removeNode(node);
             addLast(node);
-        }
+        // }
     }
     
     private void removeNode(Node node) {
