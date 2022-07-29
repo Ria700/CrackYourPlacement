@@ -30,17 +30,17 @@ class Solution {
             if(root.left == null || root.right == null){
                 return (root.left!=null)?root.left:root.right;
             }else{
-                TreeNode temp = findMax(root.left);
+                TreeNode temp = findMin(root.right);
                 root.val = temp.val;
-                root.left = deleteNode(root.left, temp.val);
+                root.right = deleteNode(root.right, temp.val);
                 return root;
             }
         }
         return root;
     }
     
-    public TreeNode findMax(TreeNode root){
-        while(root.right!=null) root = root.right;
+    public TreeNode findMin(TreeNode root){
+        while(root.left!=null) root = root.left;
         return root;
     }
 }
