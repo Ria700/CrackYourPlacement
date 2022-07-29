@@ -1,3 +1,10 @@
+// 1) size in removeNode()
+//  - since removeFirst() decreases size as well
+//  - we didnt make removeLast() so its in-place (no - `size--`, no - check for edge case)
+// 2) map.remove() in put() not in removeFirst() bec removeFirst() is used in removeNode() as well and results in removing a required key
+// 3) We need key in node while removing it 
+//      > hence node has an extra attribute - `key`
+
 class LRUCache {
 
     static class Node {
@@ -53,10 +60,10 @@ class LRUCache {
     }
     
     private void makeMostRecent(Node node) {
-        // if(size > 1) {
+        if(size > 1) {
             removeNode(node);
             addLast(node);
-        // }
+        }
     }
     
     private void removeNode(Node node) {
