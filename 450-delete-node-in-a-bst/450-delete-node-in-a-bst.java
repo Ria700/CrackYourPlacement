@@ -28,13 +28,7 @@ class Solution {
             }
             // one child
             if(root.left == null || root.right == null){
-                TreeNode temp = null;
-                if(root.left == null){
-                    temp = root.right;
-                }else{
-                    temp = root.left;
-                }
-                return temp;
+                return (root.left!=null)?root.left:root.right;
             }else{
                 TreeNode temp = findMax(root.left);
                 root.val = temp.val;
@@ -46,9 +40,7 @@ class Solution {
     }
     
     public TreeNode findMax(TreeNode root){
-        if(root.right == null){
-            return root;
-        }
-        return findMax(root.right);
+        while(root.right!=null) root = root.right;
+        return root;
     }
 }
