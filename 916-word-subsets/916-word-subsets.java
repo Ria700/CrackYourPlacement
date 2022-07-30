@@ -18,17 +18,14 @@ class Solution {
                 w1[c-'a']++;
             }
             
-            int i = 0, j = 0;
+            int i = 0;
             for(; i < 26; i++) {
-                if(w2[i]!=0) {
-                    if(w2[i] > w1[i]) {
-                        j = 1;
-                        break;
-                    }
+                if(w2[i] > w1[i]) {
+                    break;
                 }
             }
             
-            if(j == 0) ans.add(word);
+            if(i == 26) ans.add(word);
         }
         
         return ans;
