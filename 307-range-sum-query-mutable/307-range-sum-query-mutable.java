@@ -1,7 +1,7 @@
-// SEGMENT TREE - cant believe i could solve ths question
+// SEGMENT TREE - cant believe i could solve this question
 // (Also July LeetCode Challenge Finale question)
 class NumArray {
-    // no node needed - can just form tree using array(like heap)
+    // no Node needed - can just form tree using array(like heap)
     // static class Node {
     //     int val;
     //     Node left, right;
@@ -19,8 +19,8 @@ class NumArray {
     public NumArray(int[] nums) {
         n = nums.length;
         a = nums;
-        tree = new int[n*4];
-        build(1, 0, n-1);
+        tree = new int[n*4]; // extra nodes
+        build(1, 0, n-1); // tree is 1-base indexed
     }
      // build segment tree
     public void build(int node, int low, int high) {
@@ -36,7 +36,7 @@ class NumArray {
             // bulid right
             build(right, mid+1, high);
             // build curr by just accessing the left and right nodes
-            tree[node] = tree[left] + tree[right];
+            tree[node] = tree[left] + tree[right]; // plus or max or min... depending on ques
         }
     }
     
