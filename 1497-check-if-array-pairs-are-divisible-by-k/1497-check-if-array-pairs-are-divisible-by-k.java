@@ -2,9 +2,9 @@ class Solution {
     public boolean canArrange(int[] arr, int k) {
         HashMap<Integer, Integer> map = new HashMap<>();
         for(int i: arr) {
-            int rem = i%k;
-            if(rem<0) rem+=k;
-            // int rem = ((i%k)+k)%k;
+            // int rem = i%k;
+            // if(rem<0) rem+=k;
+            int rem = ((i%k)+k)%k;
             map.put(rem, map.getOrDefault(rem, 0)+1);
         }
         
