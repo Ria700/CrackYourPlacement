@@ -12,6 +12,7 @@ class Solution {
 
         int k = arr.length, a = min, cd = smin-min;
         if(cd == 0 && set.size() == 1) return true;
+        if(k != set.size()) return false;
         while(k-->0) {
             if(!set.contains(a)) return false;
             set.remove(a);
