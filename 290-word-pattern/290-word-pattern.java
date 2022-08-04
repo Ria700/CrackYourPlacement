@@ -7,13 +7,13 @@ class Solution {
         int i = 0;
         for(String word: a) {
             char ch = pattern.charAt(i);
-            if(map.containsKey(ch)) {
+            if(map.containsKey(ch)) { // contain karta h toh toh bus key pe match karlo
                 if(!map.get(ch).equals(word)) return false;
-            } else {
-                if(set.contains(word)) return false;
+            } else { // nhi karta contain toh
+                if(set.contains(word)) return false; // ye b check padhega voh word toh pehle use nhi hua! hua h toh false
                 else {
-                    map.put(ch, word);
-                    set.add(word);
+                    map.put(ch, word); // nhi hua word use toh - insert in map for the key
+                    set.add(word); // mark word as used
                 }
             }
             i++;
