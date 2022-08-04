@@ -17,6 +17,6 @@ class Solution {
             set.remove(a);
             a += cd;
         }
-        return set.size()==0;
+        return true;
     }
 }
