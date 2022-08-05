@@ -12,7 +12,7 @@ class MyCalendar {
         
         if(calendar.size() == 1) {
             int prev[] = calendar.get(0);
-            if((prev[1] > start && prev[0] < start) || (end > prev[0] && end <= prev[1])) {
+            if(prev[0] < end && start < prev[1]) {
                 return false;
             }   
             if(prev[0] >= end) calendar.add(0, new int[]{start, end});
