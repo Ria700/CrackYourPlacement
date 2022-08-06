@@ -1,19 +1,18 @@
 class Solution {
     public int leastBricks(List<List<Integer>> wall) {
         HashMap<Integer,Integer> map = new HashMap<>();
-        for(List<Integer> list: wall) {
-            int ps = 0;
-            for(int i = 0;  i < list.size()-1; i++) { // travel only till the last element to avoid last line of cross = no need for width
-                ps+=list.get(i);
-                map.put(ps, map.getOrDefault(ps,0)+1);
+        
+        int count = 0;
+        for (List<Integer> row : wall) {
+            int sum = 0;
+            for (int i = 0; i < row.size() - 1; i++) {
+                sum += row.get(i);
+                map.put(sum, map.getOrDefault(sum, 0) + 1);
+                count = Math.max(count, map.get(sum));
             }
         }
-        int maxGaps = 0;
-        for(int i : map.keySet()) {
-            if(map.get(i) > maxGaps) maxGaps = map.get(i);
-        }
         
-        return wall.size()-maxGaps;
+        return wall.size() - count;
     }
     
 }
