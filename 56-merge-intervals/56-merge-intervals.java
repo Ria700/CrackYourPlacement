@@ -1,5 +1,4 @@
 class Solution {
-    // ArrayList<int[]
     public int[][] merge(int[][] intervals) {
         // sort
         // unknown size = ArrayList
@@ -12,20 +11,15 @@ class Solution {
         // convert ArrayList to array
         
         Arrays.sort(intervals, (a,b) -> a[0]-b[0]);
-        ArrayList<int[]> list = new ArrayList<>();
-        for(int i = 0; i < intervals.length; i++) {
-            if(i == 0) {
-                list.add(intervals[i]);
+        LinkedList<int[]> list = new LinkedList<>(); // LinkedList for easy access at ends
+        for(int[] interval : intervals) {
+            if(list.isEmpty() || list.getLast()[1] < interval[0]) {
+                // empty list || non merging case
+                list.add(interval);
             } else {
-                int[] prev = list.get(list.size()-1);
-                int[] curr = intervals[i];
-                if(curr[0] <= prev[1]) {
-                    prev[1] = Math.max(curr[1], prev[1]);
-                }else {
-                    list.add(curr);
-                }
+                list.getLast()[1] = Math.max(interval[1], list.get(list.size()-1)[1]);
             }
         }
-        return list.toArray(new int[list.size()][2]);
+        return list.toArray(new int[list.size()][]);
     }
 }
