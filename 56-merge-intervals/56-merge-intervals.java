@@ -20,6 +20,6 @@ class Solution {
                 list.getLast()[1] = Math.max(interval[1], list.get(list.size()-1)[1]);
             }
         }
-        return list.toArray(new int[list.size()][]);
+        return list.toArray(new int[list.size()][2]);
     }
 }
