@@ -21,11 +21,11 @@ class Solution {
         switch(c) {
             case 'a': total = helper(rem-1, 'e')%MOD;
                 break;
-            case 'e': total = (helper(rem-1, 'a') + helper(rem-1, 'i'))%MOD;
+            case 'e': total = helper(rem-1, 'a')%MOD + helper(rem-1, 'i')%MOD;
                 break;
-            case 'i': total = (helper(rem-1, 'a') + helper(rem-1, 'e') + helper(rem-1, 'o') + helper(rem-1, 'u'))%MOD;
+            case 'i': total = helper(rem-1, 'a')%MOD + helper(rem-1, 'e')%MOD + helper(rem-1, 'o')%MOD + helper(rem-1, 'u')%MOD;
                 break;
-            case 'o': total = (helper(rem-1, 'i') + helper(rem-1, 'u'))%MOD;
+            case 'o': total = helper(rem-1, 'i')%MOD + helper(rem-1, 'u')%MOD;
                 break;
             case 'u': total = helper(rem-1, 'a')%MOD;
                 break;
