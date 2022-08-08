@@ -1,5 +1,18 @@
 class Solution {
-    int m, n;
+    class pair implements Comparable<pair>{
+        int x, y;
+
+        pair(int a, int b) {
+            x = a;
+            y = b;
+        }
+
+        public int compareTo(pair o) {
+            return arr[this.x][this.y] - arr[o.x][o.y];
+        }
+    }
+    
+    int[][] arr;
     public int kthSmallest(int[][] matrix, int k) {
         // Solution that wont work!!
             // bec the rows n cols are sorted amongst themselves but not
@@ -9,33 +22,22 @@ class Solution {
         // return matrix[k/n][k%n-1];
         
         // will greedy work?
-        // PriorityQueue<pair> pq = new PriorityQueue<Collections.reverse());
-        // pair fn = new pair(0,0);
-        // while(k-->0){
-        //     int right = Integer.MAX_VALUE, bottom = Integer.MAX_VALUE;
-        //     if(fn.y+1 < n) right = matrix[fn.x][fn.y+1];
-        //     if(fn.x+1 < n) bottom = matrix[fn.x+1][fn.y];
-        //     if(right<bottom) fn = new pair(fn.x, fn.y+1);
-        //     else fn = new pair(fn.x+1, fn.y);
-        // }
-        // return matrix[fn.x][fn.y];
-        m = matrix.length; n = matrix[0].length; // For general, the matrix need not be a square
-        int left = matrix[0][0], right = matrix[m-1][n-1], ans = -1;
-        while (left <= right) {
-            int mid = (left + right) >> 1;
-            if (countLessOrEqual(matrix, mid) >= k) {
-                ans = mid;
-                right = mid - 1; // try to looking for a smaller value in the left side
-            } else left = mid + 1; // try to looking for a bigger value in the right side
+        int n = matrix.length;
+        arr = matrix;
+        boolean vis[][] = new boolean[n][n];
+        PriorityQueue<pair> pq = new PriorityQueue<>();
+        pq.add(new pair(0,0));
+        if(k == 1) return matrix[0][0];
+        pair rem = null;
+        while(k>0){
+            rem = pq.remove();
+            // System.out.println(k+" "+matrix[rem.x][rem.y]);
+            if(vis[rem.x][rem.y]) continue;
+            vis[rem.x][rem.y] = true;;
+            if(rem.x+1 < n) pq.add(new pair(rem.x+1, rem.y));
+            if(rem.y+1 < n) pq.add(new pair(rem.x, rem.y+1));
+            k--;
         }
-        return ans;
-    }
-    int countLessOrEqual(int[][] matrix, int x) {
-        int cnt = 0, c = n - 1; // start with the rightmost column
-        for (int r = 0; r < m; ++r) {
-            while (c >= 0 && matrix[r][c] > x) --c;  // decrease column until matrix[r][c] <= x
-            cnt += (c + 1);
-        }
-        return cnt;
+        return matrix[rem.x][rem.y];
     }
 }
