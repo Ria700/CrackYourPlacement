@@ -1,53 +1,27 @@
 class Solution {
-    class TrieNode {
-        List<String> data;
-        TrieNode children[];
-        boolean isEnd;
-
-        TrieNode(){
-            data = new ArrayList<>();
-            children = new TrieNode[26];
-            isEnd = false;
-        }
-    }
-
-    static TrieNode root;
-    List<List<String>> ans;
     public List<List<String>> groupAnagrams(String[] strs) {
-        ans = new ArrayList<>();
-        
-        root = new TrieNode();
-
-        for(String word: strs){
-            build(word);
+        Map<String, List<String>> map = new HashMap<>();
+        for(String s : strs){
+            String sorted = getKey(s);
+            if(!map.containsKey(sorted)){
+                map.put(sorted, new LinkedList<String>());
+            }
+            map.get(sorted).add(s);
         }
-        
-        dfs(root);
-        
-        return ans;
+        return new LinkedList<>(map.values());
     }
     
-    public void build(String s){
-        TrieNode temp = root;
-        char[] word = s.toCharArray();
-        Arrays.sort(word);
-        for(char c: word){
-            TrieNode child = temp.children[c-'a'];
-            if(child == null) temp.children[c-'a'] = new TrieNode();
-            temp = temp.children[c-'a'];
-        }
-        temp.isEnd = true;
-        temp.data.add(s);
-    }
-    
-    public void dfs(TrieNode rt){
-        if(rt.isEnd){
-            ans.add(rt.data);
+    private String getKey(String s) {
+        int[] letters = new int[26];
+        for(char c: s.toCharArray()) {
+            letters[c-'a']++;
         }
         
-        for(int i = 0; i < 26; i++){
-            if(rt.children[i] != null) dfs(rt.children[i]);
+        StringBuilder sb = new StringBuilder();
+        for(int i = 0; i < 26; i++) {
+            char c = (char)('a'+i);
+            sb.append(c+letters[i]);
         }
+        return sb.toString();
     }
-    
 }
