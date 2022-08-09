@@ -1,41 +1,50 @@
 class Solution {
-    // variable ka anagram variation with extra characters allowed
+    // variable size sliding window ka anagram variation with extra characters allowed
     public String minWindow(String s, String t) {
-        HashMap<Character, Integer> map = new HashMap<>();
+        HashMap<Character, Integer> smap = new HashMap<>();
+        HashMap<Character, Integer> tmap = new HashMap<>();
         
         for(char c : t.toCharArray()){
-            map.put(c, map.getOrDefault(c, 0)+1);
+            tmap.put(c, tmap.getOrDefault(c, 0)+1);
         }
-        int count = map.size();
         
+        int mtc = 0;
         int min = Integer.MAX_VALUE;
         String ans = "";
-        int i = 0, j = 0;
+        int i = -1, j = -1; // en & st of window
         
-        // REMEMBER WE CANT REMOVE CHARACTERS FROM MAP EVEN IF FREQ  BECOMES 0- MAP IS MADE
-        while(j < s.length()){
-            
-            char c = s.charAt(j);
-            if(map.containsKey(c)){
-                map.put(c, map.get(c)-1);
-                if(map.get(c) == 0) count--;
-            }
-            j++;
-            
-            while(count == 0){
-                if(j-i < min){
-                    min = j-i;
-                    ans = s.substring(i, j);
-                }
+        while(i < s.length()-1){
+            while(i < s.length()-1 && mtc < t.length()) {
+                // acquire
+                i++;
                 
                 char ch = s.charAt(i);
-                if(map.containsKey(ch)){
-                    int k = map.get(ch);
-                    if(k == 0) count++;
-                    map.put(ch, k+1);
+                smap.put(ch, smap.getOrDefault(ch,0)+1);
+                
+                // mtc edit
+                if(tmap.containsKey(ch)) {
+                    if(smap.get(ch) <= tmap.get(ch)) mtc++;
                 }
-                i++;
-            }            
+            }
+            
+            while(mtc == t.length()) {
+                // release                
+                j++;
+                
+                // ans calculation
+                if(i-j < min){
+                    min = i-j+1;
+                    ans = s.substring(j, i+1);
+                }
+                
+                char ch = s.charAt(j);
+                smap.put(ch, smap.getOrDefault(ch,0)-1);
+                
+                // mtc edit
+                if(tmap.containsKey(ch)) {
+                    if(smap.get(ch) < tmap.get(ch)) mtc--;
+                }
+            }
         }
         return ans;
     }
