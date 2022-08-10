@@ -1,39 +1,34 @@
 class Solution {
     public int longestOnes(int[] nums, int k) {
-        HashMap<Integer, Integer> map = new HashMap<>();
         int i = -1, j = -1;
-        map.put(1, 0);
-        map.put(0, 0);
-        int ans = 0;
+        int cz = 0, olen = 0;
+
         while(i < nums.length - 1) {
-            while (i < nums.length - 1 && map.get(0) <= k){
+            while (i < nums.length - 1){
                 i++;
                 
-                if(nums[i] == 1) {
-                    map.put(1, map.get(1)+1);
-                } else {
-                    map.put(0, map.get(0)+1);
+                if(nums[i] == 0) {
+                    cz++;
                 }
                 
-                if(map.get(0) <= k) {
-                    ans = Math.max(ans, map.get(1)+map.get(0));
-                } else {
+                if(cz > k) {
                     break;
+                } else {
+                    int len = i - j;
+                    olen = Math.max(olen, len);
                 }
             }
             
-            while(j < i && map.get(0) > k) {
+            while(j < i) {
                 j++;
                 
-                if(nums[j] == 1) {
-                    map.put(1, map.get(1)-1);
-                } else {
-                    map.put(0, map.get(0)-1);
+                if(nums[j] == 0) {
+                    cz--;
                     break;
                 }
             }
         }
         
-        return ans;
+        return olen;
     }
 }
