@@ -20,18 +20,16 @@ class Solution {
         return helper(root);
     }
     
-    // inorder recursive
-    public boolean helper(TreeNode curr) {
+    private boolean helper(TreeNode curr) {
         if(curr == null) return true;
-            
-        boolean la = helper(curr.left);
-        if(!la) return false;
         
-        // work
-        if(prev != null && prev.val >= curr.val) return false;
+        if(!helper(curr.left)) return false;
+        
+        if(prev != null) {
+            if(prev.val >= curr.val) return false;
+        }
         prev = curr;
         
-        boolean ra = helper(curr.right);
-        return ra;
+        return helper(curr.right);
     }
 }
