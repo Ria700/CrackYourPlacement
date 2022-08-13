@@ -14,41 +14,13 @@
  * }
  */
 class Solution {
-    public ArrayList<Integer> preorder(TreeNode root){
-        ArrayList<Integer> ans = new ArrayList<>();
-        if(root == null){
-            ans.add(-1);
-            return ans;
-        }
-        
-        ans.add(root.val);
-        ans.addAll(preorder(root.left));
-        ans.addAll(preorder(root.right));
-        return ans;
-    }
-    
-    public ArrayList<Integer> reversepreorder(TreeNode root){
-        ArrayList<Integer> ans = new ArrayList<>();
-        if(root == null){
-            ans.add(-1);
-            return ans;
-        }
-
-        ans.add(root.val);
-        ans.addAll(reversepreorder(root.right));
-        ans.addAll(reversepreorder(root.left));
-        return ans;
-    }
-    
     public boolean isSymmetric(TreeNode root) {
-        ArrayList<Integer> left = preorder(root.left);
-        ArrayList<Integer> right = reversepreorder(root.right);
-        // System.out.println(left + " " + right);
-        
-        if(left.size() != right.size()) return false;
-        for(int i = 0; i < left.size(); i++){
-            if(left.get(i) != right.get(i)) return false;
-        }
-        return true;
+        if(root==null) return true;
+        return isMirror(root.left,root.right);
+    }
+    public boolean isMirror(TreeNode p, TreeNode q) {
+        if(p==null && q==null) return true;
+        if(p==null || q==null) return false;
+        return (p.val==q.val) && isMirror(p.left,q.right) && isMirror(p.right,q.left);
     }
 }
