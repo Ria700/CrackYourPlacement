@@ -1,40 +1,74 @@
 class Solution {
-    public List<Integer> findSubstring(String s, String[] words) {
-        int w = words[0].length();
-        // HashMap for words - Not hashset bec words may repeat
-        // find all strings first by an i loop and forming strings of length w
-        // once you find a word of words
-        // start sliding window of length w words if all found - ans .add(i)
-        List<Integer> ans = new ArrayList<Integer>();
-        HashMap<String,Integer>map = new HashMap<>();
-        for(String word: words) {
-            map.put(word, map.getOrDefault(word,0)+1);
-        }
+    private HashMap<String, Integer> wordCount = new HashMap<String, Integer>();
+    private int n;
+    private int wordLength;
+    private int substringSize;
+    private int k;
+    
+    private void slidingWindow(int left, String s, List<Integer> answer) {
+        HashMap<String, Integer> wordsFound = new HashMap<>();
+        int wordsUsed = 0;
+        boolean excessWord = false;
         
-        for(int i = 0; i <= s.length()-w; i++) {
-            String sub = s.substring(i, i+w);
-            // System.out.println("sub " + sub);
-            if(map.containsKey(sub)) {
-                HashMap<String,Integer>win = new HashMap<>(); // window
-                int count = 0;
-                win.put(sub, 1);
-                count++;
-                if(count == words.length) {
-                    if(map.equals(win)) ans.add(i);
-                }
-                for(int j = i+w; j <= s.length()-w; j+=w) {
-                    sub = s.substring(j, j+w);
-                    // System.out.println("enter loop " + sub);
-                    if(!map.containsKey(sub)) break;
-                    win.put(sub, win.getOrDefault(sub,0)+1);
-                    count++;
-                    if(count == words.length) {
-                        if(map.equals(win)) ans.add(i);
-                        break;
+        // Do the same iteration pattern as the previous approach - iterate
+        // word_length at a time, and at each iteration we focus on one word
+        for (int right = left; right <= n - wordLength; right += wordLength) {
+            
+            String sub = s.substring(right, right + wordLength);
+            if (!wordCount.containsKey(sub)) {
+                // Mismatched word - reset the window
+                wordsFound.clear();
+                wordsUsed = 0;
+                excessWord = false;
+                left = right + wordLength;
+            } else {
+                // If we reached max window size or have an excess word
+                while (right - left == substringSize || excessWord) {
+                    String leftmostWord = s.substring(left, left + wordLength);
+                    left += wordLength;
+                    wordsFound.put(leftmostWord, wordsFound.get(leftmostWord) - 1);
+
+                    if (wordsFound.get(leftmostWord) >= wordCount.get(leftmostWord)) {
+                        // This word was an excess word
+                        excessWord = false;
+                    } else {
+                        // Otherwise we actually needed it
+                        wordsUsed--;
                     }
+                }
+                
+                // Keep track of how many times this word occurs in the window
+                wordsFound.put(sub, wordsFound.getOrDefault(sub, 0) + 1);
+                if (wordsFound.get(sub) <= wordCount.get(sub)) {
+                    wordsUsed++;
+                } else {
+                    // Found too many instances already
+                    excessWord = true;
+                }
+                
+                if (wordsUsed == k && !excessWord) {
+                    // Found a valid substring
+                    answer.add(left);
                 }
             }
         }
-        return ans;
+    }
+    
+    public List<Integer> findSubstring(String s, String[] words) {
+        n = s.length();
+        k = words.length;
+        wordLength = words[0].length();
+        substringSize = wordLength * k;
+        
+        for (String word : words) {
+            wordCount.put(word, wordCount.getOrDefault(word, 0) + 1);
+        }
+        
+        List<Integer> answer = new ArrayList<>();
+        for (int i = 0; i < wordLength; i++) {
+            slidingWindow(i, s, answer);
+        }
+        
+        return answer;
     }
 }
