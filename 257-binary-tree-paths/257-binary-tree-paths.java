@@ -23,7 +23,7 @@ class Solution {
     
     private void helper(TreeNode root, String s) {
         if(root == null) return;
-        if(root.left == null && root.right == null) {
+        if(root.left == root.right) {
             ans.add(s+root.val);
             return;
         }
