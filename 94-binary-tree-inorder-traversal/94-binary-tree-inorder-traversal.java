@@ -14,36 +14,29 @@
  * }
  */
 class Solution {
-    // morris traversal
-    // SC- O(1)
-    // TC- O(n)
     public List<Integer> inorderTraversal(TreeNode root) {
-        TreeNode curr = root;
-        List<Integer> ans = new ArrayList<Integer>();
-        while(curr!=null) {
-            TreeNode ln = curr.left;
-            
-            if(ln == null) {
-                ans.add(curr.val);
-                curr = curr.right;
-            }else{
-                TreeNode rmn = rightmostNode(ln, curr);
+        List<Integer> ans = new ArrayList<>();
+        while(root!=null) {
+            if(root.left == null) {
+                ans.add(root.val);
+                root = root.right;
+            } else {
+                TreeNode rmn = rightmostNode(root.left,root);
                 if(rmn.right == null) {
-                    rmn.right = curr;
-                    curr = curr.left;
-                }else{
-                    ans.add(curr.val);
+                    rmn.right = root;
+                    root = root.left;
+                } else {
+                    ans.add(root.val);
                     rmn.right = null;
-                    curr = curr.right;
+                    root = root.right;
                 }
             }
         }
         return ans;
     }
     
-    private TreeNode rightmostNode(TreeNode ln, TreeNode curr) {
-        TreeNode temp = ln;
-        while(temp.right != null && temp.right != curr) temp = temp.right;
-        return temp;
+    private TreeNode rightmostNode(TreeNode root, TreeNode curr) {
+        while(root.right!=null && root.right!=curr) root=root.right;
+        return root;
     }
 }
