@@ -22,8 +22,8 @@ class Solution {
                 // Sorted array 
                 // TC: O(n) SC: O(n)
             // without space
-        traverse(root, k);
-        return result; 
+        // traverse(root, k);
+        // return result; 
         // inorder iterative using stack
             // TC: O(k) SC: O(h)
         // Stack<TreeNode> s = new Stack<>();
@@ -35,6 +35,25 @@ class Solution {
         //     addLeft(rem.right, s);
         // }
         // return -1;
+        
+        // Better code
+        Stack<TreeNode> stack = new Stack<TreeNode>();
+         TreeNode p = root;
+         int count = 0;
+
+         while(!stack.isEmpty() || p != null) {
+             if(p != null) {
+                 stack.push(p);  // Just like recursion
+                 p = p.left;   
+
+             } else {
+                TreeNode node = stack.pop();
+                if(++count == k) return node.val; 
+                p = node.right;
+             }
+         }
+     
+     return Integer.MIN_VALUE;
         
         // using height : count nodes - Doesnt use BST prperty (?)
     }
