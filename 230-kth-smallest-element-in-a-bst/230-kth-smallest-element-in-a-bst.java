@@ -14,19 +14,29 @@
  * }
  */
 class Solution {
+    int count = 0;
+    int result = Integer.MIN_VALUE;
     public int kthSmallest(TreeNode root, int k) {
-        // inorder traversal - extra space
         // inorder recursive
+            // with extra space
+                // Sorted array 
+                // TC: O(n) SC: O(n)
+            // without space
+        traverse(root, k);
+        return result; 
         // inorder iterative using stack
-        Stack<TreeNode> s = new Stack<>();
-        addLeft(root, s);
-        while(s.size() > 0) {
-            TreeNode rem = s.pop();
-            k--;
-            if(k == 0) return rem.val;
-            addLeft(rem.right, s);
-        }
-        return -1;
+            // TC: O(k) SC: O(h)
+        // Stack<TreeNode> s = new Stack<>();
+        // addLeft(root, s);
+        // while(s.size() > 0) {
+        //     TreeNode rem = s.pop();
+        //     k--;
+        //     if(k == 0) return rem.val;
+        //     addLeft(rem.right, s);
+        // }
+        // return -1;
+        
+        // using height : count nodes - Doesnt use BST prperty (?)
     }
     
     private void addLeft(TreeNode root, Stack<TreeNode> s) {
@@ -35,6 +45,15 @@ class Solution {
             root = root.left;
         }
     }
+    
+    public void traverse(TreeNode root, int k) {
+        if(root == null) return;
+        traverse(root.left, k);
+        count ++;
+        if(count == k) result = root.val;
+        traverse(root.right, k);       
+    }
+    // doesnt work - see working above
     // int ans;
     // TreeNode prev;
     // public int kthSmallest(TreeNode root, int k) {
