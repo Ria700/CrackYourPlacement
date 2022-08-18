@@ -14,8 +14,8 @@
  * }
  */
 class Solution {
-    int count = 0;
-    int result = Integer.MIN_VALUE;
+    // int count = 0;
+    // int result = Integer.MIN_VALUE;
     public int kthSmallest(TreeNode root, int k) {
         // inorder recursive
             // with extra space
@@ -37,26 +37,37 @@ class Solution {
         // return -1;
         
         // Better code
-        Stack<TreeNode> stack = new Stack<TreeNode>();
-         TreeNode p = root;
-         int count = 0;
-
-         while(!stack.isEmpty() || p != null) {
-             if(p != null) {
-                 stack.push(p);  // Just like recursion
-                 p = p.left;   
-
-             } else {
-                TreeNode node = stack.pop();
-                if(++count == k) return node.val; 
-                p = node.right;
-             }
-         }
-     
-     return Integer.MIN_VALUE;
+        // Stack<TreeNode> stack = new Stack<TreeNode>();
+        // TreeNode p = root;
+        // int count = 0;
+        // while(!stack.isEmpty() || p != null) {
+        //     if(p != null) {
+        //         stack.push(p);  // Just like recursion
+        //         p = p.left;   
+        //     } else {
+        //         TreeNode node = stack.pop();
+        //         if(++count == k) return node.val; 
+        //         p = node.right;
+        //     }
+        //  }  
+        // return Integer.MIN_VALUE;
         
         // using height : count nodes - Doesnt use BST prperty (?)
-    }
+        // count node using height
+        int count = countNodes(root.left);
+        if (k <= count) {
+            return kthSmallest(root.left, k);
+        } else if (k > count + 1) {
+            return kthSmallest(root.right, k-1-count); // 1 is counted as current node
+        }
+        return root.val;
+      }
+  
+      public int countNodes(TreeNode n) {
+          if (n == null) return 0;
+
+          return 1 + countNodes(n.left) + countNodes(n.right);
+      }
     
     private void addLeft(TreeNode root, Stack<TreeNode> s) {
         while(root!=null) {
@@ -65,14 +76,14 @@ class Solution {
         }
     }
     
-    public void traverse(TreeNode root, int k) {
-        if(root == null) return;
-        traverse(root.left, k);
-        count ++;
-        if(count == k) result = root.val;
-        traverse(root.right, k);       
-    }
-    // doesnt work - see working above
+    // public void traverse(TreeNode root, int k) {
+    //     if(root == null) return;
+    //     traverse(root.left, k);
+    //     count ++;
+    //     if(count == k) result = root.val;
+    //     traverse(root.right, k);       
+    // }
+    // doesnt work - see working approach above
     // int ans;
     // TreeNode prev;
     // public int kthSmallest(TreeNode root, int k) {
