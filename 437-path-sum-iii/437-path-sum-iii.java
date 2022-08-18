@@ -25,7 +25,7 @@ class Solution {
             return;
         }
         //if(node.val == -2)
-        countTarget(node , 0 , targetSum);
+        countTarget(node , targetSum , targetSum);
 
         countTarget_temp(node.left , targetSum);
         countTarget_temp(node.right , targetSum);
@@ -37,11 +37,10 @@ class Solution {
             return;
         }
         //System.out.println(node.val + " " + csum);
-        if(csum+node.val == targetSum){
-            //System.out.println(csum  + " " + node.val);
+        if(node.val == csum){
             count++;
         }
-        countTarget(node.left , csum+node.val , targetSum);
-        countTarget(node.right , csum+node.val , targetSum);
+        countTarget(node.left , csum-node.val , targetSum);
+        countTarget(node.right , csum-node.val , targetSum);
     }
 }
