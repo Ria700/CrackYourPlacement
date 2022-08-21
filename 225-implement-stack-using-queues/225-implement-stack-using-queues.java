@@ -6,26 +6,18 @@ class MyStack {
     }
     
     public void push(int x) {
+        int size = main.size();
+        while(size-->0) helper.add(main.remove());
         main.add(x);
+        while(helper.size() > 0) main.add(helper.remove());
     }
     
     public int pop() {
-        int size = main.size();
-        while(size-->1) helper.add(main.remove());
-        int val = main.remove();
-        main = helper;
-        helper = new ArrayDeque<>();
-        return val;
+        return main.remove();
     }
     
     public int top() {
-        int size = main.size();
-        while(size-->1) helper.add(main.remove());
-        int val = main.remove();
-        helper.add(val);
-        main = helper;
-        helper = new ArrayDeque<>();
-        return val;
+        return main.peek();
     }
     
     public boolean empty() {
