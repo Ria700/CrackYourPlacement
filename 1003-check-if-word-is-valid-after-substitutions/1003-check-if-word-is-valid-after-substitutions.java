@@ -11,7 +11,7 @@ class Solution {
                         st.push('c');
                     }
                 } else 
-                    st.push('c');
+                    return false;
             } else st.push(ch);
         }
         return st.size() == 0;
