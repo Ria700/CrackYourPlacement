@@ -1,12 +1,12 @@
 class meta {
-    int id, stTime, wt;
+    int id, stTime;
     meta() {
         
     }
-    meta(int a, int b, int c) {
+    meta(int a, int b) {
         id = a;
         stTime = b;
-        wt = c;
+        // wt = c;
     }
 }
 
@@ -21,12 +21,12 @@ class Solution {
             boolean isStart = "start".equals(data[1]);
             int timeStamp = Integer.parseInt(data[2]);
             
-            if(isStart) st.push(new meta(funcId, timeStamp, 0));
+            if(isStart) st.push(new meta(funcId, timeStamp));
             else {
                 meta fn = st.pop();
-                int ext = timeStamp-fn.stTime + 1 ;
-                ans[fn.id] += ext- fn.wt;
-                if(!st.isEmpty()) st.peek().wt += ext;
+                int ext = timeStamp-fn.stTime+1;
+                ans[fn.id] += ext;
+                if(!st.isEmpty()) ans[st.peek().id] -= ext;
             }           
         }
         return ans;
