@@ -5,7 +5,7 @@ class Solution {
             letters[ch-'a']++;
         }
         for(char ch: ransomNote.toCharArray()) {
-            if(letters[ch-'a']-- == 0) return false;
+            if(--letters[ch-'a'] < 0) return false;
         }
         return true;
     }
