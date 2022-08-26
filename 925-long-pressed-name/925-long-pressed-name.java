@@ -11,6 +11,6 @@ class Solution {
             } else return false;
         }
         
-        return i == name.length() && j == typed.length();
+        return i == name.length();
     }
 }
