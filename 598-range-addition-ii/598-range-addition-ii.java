@@ -4,6 +4,7 @@ class Solution {
             return m * n;
         }
         
+        // the max element will rest at the min row col (cuz max operations will be perf there)
         int row = Integer.MAX_VALUE, col = Integer.MAX_VALUE;
         for(int[] op : ops) {
             row = Math.min(row, op[0]);
