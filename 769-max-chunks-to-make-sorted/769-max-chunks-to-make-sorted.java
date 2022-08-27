@@ -1,21 +1,11 @@
 class Solution {
     public int maxChunksToSorted(int[] arr) {
-        int n = arr.length, count = 0, i = 0;
+        int n = arr.length, count = 0, max = 0;
         
-        for(; i < n; ) {
-            if(arr[i] == i) {
-                count++;
-                i++;
-            }
-            else {
-                int maxRange = arr[i];
-                i++;
-                while(i <= maxRange) {
-                    maxRange = Math.max(maxRange, arr[i]);
-                    i++;
-                }
-                count++;
-            }
+        for(int i = 0; i < n; i++) {
+            if(arr[i] > max) max = arr[i];
+            
+            if(i == max) count++;
         }
         return count;
     }
