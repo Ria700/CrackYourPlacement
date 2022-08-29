@@ -14,6 +14,14 @@ class Solution {
             
             i++;
         }
-        return val;
+        
+        // verify majority element = not reqd for this ques!
+        int freq = 0;
+        for(i = 0; i < nums.length; i++) {
+            if(nums[i] == val) freq++;
+        }
+        if(freq > nums.length/2)
+            return val;
+        return -1;
     }
 }
