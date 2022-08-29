@@ -8,7 +8,7 @@ class Solution {
         if(k == 1){
             return kadanesMofified(arr, 1);
         }else if(tsum > 0){
-            return handleSumGreatetThan0(arr, k, tsum);
+            return handleSumGreaterThan0(arr, k, tsum);
         }else{
             return kadanesMofified(arr, 2);
         }
@@ -31,7 +31,7 @@ class Solution {
         return max;
     }
     
-    public int handleSumGreatetThan0(int[] arr, int k, long tsum){
+    public int handleSumGreaterThan0(int[] arr, int k, long tsum){
         long prefixSum = 0;
 		long peakFromLeft = Long.MIN_VALUE;
 		for (int i = 0; i < arr.length; i++) {
@@ -45,7 +45,7 @@ class Solution {
 			suffixSum += arr[i];
             if(suffixSum > peakFromRight) peakFromRight = suffixSum;
 		}
-        long ans = (peakFromLeft + (k-2)*tsum + peakFromRight)%1000000007;
+        long ans = (peakFromRight + (k-2)*tsum + peakFromLeft)%1000000007;
         return (int)ans;
     }
 }
