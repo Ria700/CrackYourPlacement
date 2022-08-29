@@ -4,9 +4,9 @@ class Solution {
         for(int i: nums) tsum += i;
         int idx = 0;
         for(int i: nums) {
-            sum+=i;
-            if(sum == tsum) return idx;
             tsum-=i;
+            if(sum == tsum) return idx;
+            sum+=i;
             
             idx++;
         }
