@@ -1,7 +1,13 @@
 class Solution {
     public void rotate(int[][] m) {
-        transpose(m);
+        rotatehelper(m);
+        rotatehelper(m);
+        rotatehelper(m);
+    }
+    
+    public void rotatehelper(int[][] m) {
         reflect(m);
+        transpose(m);
     }
     
     private void reflect(int[][] m) {
