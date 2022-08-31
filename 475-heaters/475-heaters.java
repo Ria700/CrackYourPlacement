@@ -1,29 +1,59 @@
 class Solution {
-    public int findRadius(int[] houses, int[] heaters) {
-        int max = 0;
-        Arrays.sort(heaters);
-        for(int i: houses) max = Math.max(max, binarySearch(heaters, i));
-        return max;
+    static class Pair {
+        int jl;
+        int js;
+        
+        Pair() {
+            
+        }
+        
+        Pair(int jl,int js) {
+            this.jl = jl;
+            this.js = js;
+        }
     }
     
-    private int binarySearch(int[] heaters, int target) {
-        int lo = 0, hi = heaters.length-1;
-        while(lo <= hi) {
-            int mid = lo + (hi - lo)/2;
+    public int findRadius(int[] houses, int[] heaters) {
+        Arrays.sort(heaters);
+        int max = 0;
+        
+        for(int i=0; i < houses.length;i++) {
+            Pair p = helper(heaters,houses[i]); //ceil and floor calculation in helper
+            int ld = (p.js == -1) ? Integer.MAX_VALUE : houses[i] - p.js;
+            int rd = (p.jl == -1) ? Integer.MAX_VALUE : p.jl - houses[i];
             
-            if(heaters[mid] == target) {
-                return 0;
-            } else if(heaters[mid] > target){
-                hi = mid-1;
-            } else {
+            max = Math.max(max,Math.min(ld,rd));
+        }
+        
+        return max;
+        
+    }
+    
+    public static Pair helper(int[]arr,int key) {
+        int lo = 0;
+        int hi = arr.length-1;
+        
+        int jl = -1;
+        int js = -1;
+        
+        while(lo <= hi) {
+            int mid = (lo + hi)/2;
+            
+            if(arr[mid] == key) {
+                jl = js = arr[mid];
+                break;
+            }
+            else if(arr[mid] < key) {
+                js = arr[mid];
                 lo = mid+1;
+            }
+            else if(arr[mid] > key){
+                jl = arr[mid];
+                hi = mid-1;
             }
         }
         
-        int ceil 
-            = (lo>=0 && lo<heaters.length)?Math.abs(target-heaters[lo]):Integer.MAX_VALUE;
-        int floor 
-            = (hi>=0 && hi<heaters.length)?Math.abs(target-heaters[hi]):Integer.MAX_VALUE;
-        return Math.min(ceil, floor);
+        return new Pair(jl,js);
+        
     }
 }
