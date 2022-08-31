@@ -6,7 +6,7 @@ class Solution {
         
         // Note: h cannot be less that piles.length
         
-        int lo = 0, hi = 0;
+        int lo = 1, hi = 0;
         for(int i: piles) hi = Math.max(hi, i);
         
         while(lo < hi) {
@@ -17,8 +17,8 @@ class Solution {
                 noofhours += Math.ceil((i*1.0)/mid);
             }
              
-            if(noofhours > h) lo = mid+1;
-            else hi = mid;
+            if(noofhours > h) lo = mid+1; // zyada hrs lage 'h' se toh speed badhao range bdi pe rakho
+            else hi = mid; // kam ya equal hours lagre hain to we can decrease the speed further
         }
         
         return lo;
@@ -29,7 +29,7 @@ class Solution {
     // 3 3 4 3 3 4 3 3
     // 4-6
     // mid = 4
-        
+    
     // 4 11 20 23 30
     // 4-25
 }
