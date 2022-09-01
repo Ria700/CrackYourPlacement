@@ -3,14 +3,14 @@ class Solution {
         int n = arr.length;
         List<Integer> ans = new ArrayList<>();
         int index = ceil(arr, x);
-        if(index > arr.length) {
-            // add add elements from n-k to n-1
-            for(int i = n-k; i < n; i++) ans.add(arr[i]);
-            return ans;
-        } else if(index == 0) {
-            for(int i = 0; i < k; i++) ans.add(arr[i]);
-            return ans;
-        } else {
+        // if(index > arr.length) {
+        //     // add add elements from n-k to n-1
+        //     for(int i = n-k; i < n; i++) ans.add(arr[i]);
+        //     return ans;
+        // } else if(index == 0) {
+        //     for(int i = 0; i < k; i++) ans.add(arr[i]);
+        //     return ans;
+        // } else {
             int i = index-1, j = index;
             while(ans.size() < k && i >= 0 && j < n) {
                 if(Math.abs(x-arr[i]) <= Math.abs(x-arr[j])) {
@@ -35,7 +35,7 @@ class Solution {
                     }
                 }
             }
-        }
+        // }
         Collections.sort(ans);
         // System.out.println(index);
         
