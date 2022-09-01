@@ -8,7 +8,7 @@ class Solution {
         }
         
         int ans = 0;
-        while(lo <= hi) {
+        while(lo < hi) {
             int mid = lo + (hi-lo)/2;
             
             int sum = 0, pk = 1;
@@ -24,11 +24,10 @@ class Solution {
             if(pk > days) {
                 lo = mid+1;
             } else {
-                ans = mid;
-                hi = mid-1;
+                hi = mid;
             }
         }
         
-        return ans;
+        return lo;
     }
 }
