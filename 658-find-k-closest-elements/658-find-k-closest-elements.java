@@ -1,50 +1,60 @@
 class Solution {
-    static class Pair implements Comparable<Pair> {
-        int val;
-        int gap;
-        
-        Pair() {
-            
-        }
-        
-        Pair(int val,int gap) {
-            this.val = val;
-            this.gap = gap;
-        }
-        
-        public int compareTo(Pair o) {
-            if(this.gap != o.gap) {
-                return this.gap - o.gap;
-            }
-            else {
-                return this.val - o.val;
-            }
-        }
-    }
-    
-    
     public List<Integer> findClosestElements(int[] arr, int k, int x) {
-        PriorityQueue<Pair>pq = new PriorityQueue<>(Collections.reverseOrder()); //max heap
-        
-        for(int i=0; i < arr.length;i++) {
-            if(pq.size() < k) {
-                pq.add(new Pair(arr[i],Math.abs(arr[i]-x)));
+        int n = arr.length;
+        List<Integer> ans = new ArrayList<>();
+        int index = ceil(arr, x);
+        if(index > arr.length) {
+            // add add elements from n-k to n-1
+            for(int i = n-k; i < n; i++) ans.add(arr[i]);
+            return ans;
+        } else if(index == 0) {
+            for(int i = 0; i < k; i++) ans.add(arr[i]);
+            return ans;
+        } else {
+            int i = index-1, j = index;
+            while(ans.size() < k && i >= 0 && j < n) {
+                if(Math.abs(x-arr[i]) <= Math.abs(x-arr[j])) {
+                    ans.add(arr[i]);
+                    i--;
+                } else {
+                    ans.add(arr[j]);
+                    j++;
+                }
             }
-            else if(pq.peek().gap > Math.abs(arr[i]-x)) {
-                pq.remove();
-                pq.add(new Pair(arr[i],Math.abs(arr[i]-x)));
+            
+            if(ans.size() < k) {
+                if(i >= 0) {
+                    while(ans.size() < k) {
+                        ans.add(arr[i]);
+                        i--;
+                    }
+                } else {
+                    while(ans.size() < k) {
+                        ans.add(arr[j]);
+                        j++;
+                    }
+                }
             }
         }
-        
-        List<Integer>ans = new ArrayList<>();
-        
-        while(pq.size() > 0) {
-            Pair p = pq.remove();
-            ans.add(p.val);
-        }
-        
         Collections.sort(ans);
+        // System.out.println(index);
         
-        return ans; 
+        return ans;
+    }
+        
+    public int ceil(int[] arr, int x){
+        int st = 0, en = arr.length-1; 
+        
+        while(st <= en){
+            int mid = st + (en-st)/2;
+            if(arr[mid] == x){
+                return mid;
+            }else if(arr[mid] > x){
+                en = mid-1;
+            }else{
+                st = mid+1;
+            }
+        }
+        return st;
     }
 }
