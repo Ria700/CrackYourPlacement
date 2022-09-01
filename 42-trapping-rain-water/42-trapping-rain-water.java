@@ -16,8 +16,7 @@ class Solution {
         
         int rainWater = 0;
         for(int i = 1; i < n-1; i++) {
-            if(Math.min(maxLeft[i], maxRight[i]) > height[i])
-                rainWater += Math.min(maxLeft[i], maxRight[i])-height[i];
+            rainWater += Math.min(maxLeft[i], maxRight[i])-height[i];
         }
         
         return rainWater;
