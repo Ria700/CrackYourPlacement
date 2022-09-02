@@ -1,28 +1,31 @@
 class Solution {
     public int numIslands(char[][] grid) {
-        int count = 0;
-        for(int i  = 0; i < grid.length; i++){
-            for(int j = 0; j < grid[0].length; j++){
-                if(grid[i][j] == '1'){
-                    count++;
+        int count = 0; // no of islands = no of dfs calls
+        for(int i = 0; i < grid.length; i++) {
+            for(int j = 0; j < grid[0].length; j++) {
+                if(grid[i][j] == '1') {
                     dfs(grid, i, j);
+                    count++;
                 }
             }
         }
         return count;
     }
     
-    int dir[][] = {{0, -1}, {-1, 0}, {1, 0}, {0, 1}};
-    public void dfs(char[][] grid, int i, int j){
-        if(i < 0 || j < 0 || i >= grid.length || j >= grid[0].length || grid[i][j] == '0')
-            return;
+    int[][] dir = {{-1, 0}, {0, -1}, {1, 0}, {0, 1}};
+    private void dfs(char[][] grid, int i, int j) {
+        if(grid[i][j] == '0') return;
         
-        grid[i][j] = '0';
+        grid[i][j] = '0'; // visisted
         
-        for(int k = 0; k < 4; k++){
-            int row = i + dir[k][0];
-            int col = j + dir[k][1];
-            dfs(grid, row, col);
+        for(int[] row: dir) {
+            int ii = i + row[0];
+            int jj = j + row[1];
+            
+            if(ii >= 0 && jj >= 0 && ii < grid.length && jj < grid[0].length 
+               && grid[ii][jj] != '0') {
+                dfs(grid, ii, jj);
+            }
         }
     }
 }
