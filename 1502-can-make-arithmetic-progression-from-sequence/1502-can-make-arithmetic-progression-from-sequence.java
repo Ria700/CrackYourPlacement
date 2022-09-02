@@ -1,23 +1,26 @@
 class Solution {
     public boolean canMakeArithmeticProgression(int[] arr) {
-        int min = Integer.MAX_VALUE, smin = Integer.MAX_VALUE;
         HashSet<Integer> set = new HashSet<>();
+        int min = Integer.MAX_VALUE, smin = Integer.MAX_VALUE;
         for(int i: arr) {
             set.add(i);
             if(i < min) {
                 smin = min;
                 min = i;
-            } else if(i < smin) smin = i;
+            } else if(i < smin) {
+                smin = i;
+            }
         }
-
-        int k = arr.length, a = min, cd = smin-min;
+        
+        int cd = smin-min, a = min;
         if(cd == 0 && set.size() == 1) return true;
-        if(k != set.size()) return false;
+        int k = arr.length;
         while(k-->0) {
             if(!set.contains(a)) return false;
             set.remove(a);
-            a += cd;
+            a+=cd;
         }
+        
         return true;
     }
 }
