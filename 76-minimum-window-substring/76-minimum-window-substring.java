@@ -1,50 +1,38 @@
 class Solution {
-    // variable size sliding window ka anagram variation with extra characters allowed
     public String minWindow(String s, String t) {
-        HashMap<Character, Integer> smap = new HashMap<>();
-        HashMap<Character, Integer> tmap = new HashMap<>();
-        
-        for(char c : t.toCharArray()){
-            tmap.put(c, tmap.getOrDefault(c, 0)+1);
-        }
-        
-        int mtc = 0;
         int min = Integer.MAX_VALUE;
         String ans = "";
-        int i = -1, j = -1; // en & st of window
+        HashMap<Character, Integer> map = new HashMap<>();
+        for(char c: t.toCharArray()) 
+            map.put(c, map.getOrDefault(c,0)+1);
+        int count = map.size();
         
-        while(i < s.length()-1){
-            while(i < s.length()-1 && mtc < t.length()) {
-                // acquire
-                i++;
-                
-                char ch = s.charAt(i);
-                smap.put(ch, smap.getOrDefault(ch,0)+1);
-                
-                // mtc edit
-                if(tmap.containsKey(ch)) {
-                    if(smap.get(ch) <= tmap.get(ch)) mtc++;
-                }
+        int i = 0, j = 0;
+        while(j < s.length()) {
+            char c = s.charAt(j);
+            
+            if(map.containsKey(c)) {
+                int freq = map.get(c);
+                map.put(c, freq-1);
+                if(freq == 1) count--;
             }
             
-            while(mtc == t.length()) {
-                // release                
-                j++;
-                
-                // ans calculation
-                if(i-j < min){
-                    min = i-j+1;
-                    ans = s.substring(j, i+1);
+            while(count == 0) {
+                int temp = j-i;
+                if(temp < min) {
+                    ans = s.substring(i, j+1);
+                    min = j-i;
                 }
                 
-                char ch = s.charAt(j);
-                smap.put(ch, smap.getOrDefault(ch,0)-1);
-                
-                // mtc edit
-                if(tmap.containsKey(ch)) {
-                    if(smap.get(ch) < tmap.get(ch)) mtc--;
+                char ch = s.charAt(i);
+                if(map.containsKey(ch)) {
+                    int freq = map.get(ch);
+                    map.put(ch, freq+1);
+                    if(map.get(ch) == 1) count++;
                 }
+                i++;
             }
+            j++;
         }
         return ans;
     }
