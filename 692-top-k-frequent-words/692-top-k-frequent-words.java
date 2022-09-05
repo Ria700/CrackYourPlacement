@@ -1,19 +1,12 @@
 class Solution {
     public List<String> topKFrequent(String[] words, int k) {
-        List<String> ans = new ArrayList<>();
-        if(k > words.length) return ans;
-        HashMap<String, Integer> map = new HashMap<>();
-        for(String word: words) map.put(word, map.getOrDefault(word, 0)+1);
-        
-        PriorityQueue<String> pq = new PriorityQueue<>((a,b) -> map.get(a)==map.get(b)?b.compareTo(a):map.get(a)-map.get(b)); // min pq
-        for(String word: map.keySet()) {
-            pq.add(word);
-            if(pq.size() > k) pq.poll();
+        Map<String, Integer> cnt = new HashMap<>();
+        for (String word : words) {
+            cnt.put(word, cnt.getOrDefault(word, 0) + 1);
         }
-        while(pq.size() > 0) {
-            ans.add(pq.remove());
-        }
-        Collections.reverse(ans);
-        return ans;
+        List<String> candidates = new ArrayList<>(cnt.keySet());
+        Collections.sort(candidates,
+                (w1, w2) -> cnt.get(w1).equals(cnt.get(w2)) ? w1.compareTo(w2) : cnt.get(w2) - cnt.get(w1));
+        return candidates.subList(0, k);
     }
 }
