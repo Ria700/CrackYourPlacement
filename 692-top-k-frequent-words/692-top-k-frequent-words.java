@@ -5,13 +5,15 @@ class Solution {
         HashMap<String, Integer> map = new HashMap<>();
         for(String word: words) map.put(word, map.getOrDefault(word, 0)+1);
         
-        PriorityQueue<String> pq = new PriorityQueue<>((a,b) -> map.get(a)==map.get(b)?a.compareTo(b):map.get(b)-map.get(a)); // max pq
+        PriorityQueue<String> pq = new PriorityQueue<>((a,b) -> map.get(a)==map.get(b)?b.compareTo(a):map.get(a)-map.get(b)); // min pq
         for(String word: map.keySet()) {
-            pq.add(word);    
+            pq.add(word);
+            if(pq.size() > k) pq.poll();
         }
-        while(k-- > 0) {
+        while(pq.size() > 0) {
             ans.add(pq.remove());
         }
+        Collections.reverse(ans);
         return ans;
     }
 }
