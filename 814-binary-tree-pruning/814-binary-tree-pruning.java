@@ -1,48 +1,24 @@
-/**
- * Definition for a binary tree node.
- * public class TreeNode {
- *     int val;
- *     TreeNode left;
- *     TreeNode right;
- *     TreeNode() {}
- *     TreeNode(int val) { this.val = val; }
- *     TreeNode(int val, TreeNode left, TreeNode right) {
- *         this.val = val;
- *         this.left = left;
- *         this.right = right;
- *     }
- * }
- */
 class Solution {
-    class Pair{
-        TreeNode root;
-        boolean has1;
-        
-        Pair(TreeNode root_, boolean has1_) {root = root_; has1 = has1_;}
-    }
     public TreeNode pruneTree(TreeNode root) {
-        return helper(root).root;
+        return containsOne(root) ? root : null;
     }
-    
-    public Pair helper(TreeNode root) {
-        if(root == null) return new Pair(null, false);
+
+    public boolean containsOne(TreeNode node) {
+        if (node == null) return false;
         
-        if(root.left == root.right) {
-            if(root.val == 0) 
-                return new Pair(null, false);
-            if(root.val == 1)
-                return new Pair(root, true);
-        }
+        // Check if any node in the left subtree contains a 1.
+        boolean leftContainsOne = containsOne(node.left);
         
-        Pair rl = helper(root.left);
-        Pair rr = helper(root.right);
+        // Check if any node in the right subtree contains a 1.
+        boolean rightContainsOne = containsOne(node.right);
+
+        // If the left subtree does not contain a 1, prune the subtree.
+        if (!leftContainsOne) node.left = null;
         
-        if(root.val == 0)
-            if(!rl.has1 && !rr.has1) return new Pair(null, false);
+        // If the right subtree does not contain a 1, prune the subtree.
+        if (!rightContainsOne) node.right = null;
         
-        root.left = rl.root;
-        root.right = rr.root;
-        
-        return new Pair(root, true);
+        // Return true if the current node, its left or right subtree contains a 1.
+        return node.val == 1 || leftContainsOne || rightContainsOne;
     }
 }
