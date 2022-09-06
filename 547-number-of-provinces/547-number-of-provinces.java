@@ -3,11 +3,11 @@ class Solution {
         int n = isConnected.length;
         int[] parent = new int[n];
         int rank[] = new int[n];
-        // boolean vis[] = new boolean[n];
+        
         for(int i = 0; i < n; i++){
             parent[i]=i;
         }
-        HashMap<Integer, Integer> map = new HashMap<>(); //Parent: No. of Children
+        
         for(int i = 0 ; i < n; i++){
             for(int j = i+1; j < n; j++){
                 if(isConnected[i][j] == 1){
@@ -16,23 +16,12 @@ class Solution {
             }
         }
         
+        Set<Integer> set = new HashSet<Integer>();
         for(int i = 0; i < n; i++){
-            // System.out.println(parent[i]);
-            
-            if(map.containsValue(find(i, parent))){
-                map.put(parent[i], map.get(parent[i]+1));
-            }else{
-                map.put(parent[i], 1);
-            }
+            set.add(find(i, parent));
         }
         
-        // Set<Integer> s = map.keySet();
-        // for(int i = 0; i < n; i++){
-        //     System.out.print(parent[i]+" ");
-        // }
-        // System.out.println(s);
-        return map.size();
-        
+        return set.size();
     }
     
     public int find(int x, int[] parent){
