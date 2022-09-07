@@ -15,8 +15,7 @@
  */
 class Solution {
     class HP {
-        int in;
-        int ex;
+        int in = 0, ex = 0;
     }
     
     public int rob(TreeNode root) {
@@ -25,21 +24,12 @@ class Solution {
     }
     
     public HP helper(TreeNode root) {
-        if(root == null){
-            HP rp = new HP();
-            rp.in = 0;
-            rp.ex = 0;
-            return rp;
-        }
-        
-        HP l = helper(root.left);
-        HP r = helper(root.right);
-        
+        if(root == null) return new HP();
         HP rp = new HP();
-        
-        rp.in = l.ex + r.ex + root.val;
-        rp.ex = Math.max(l.in, l.ex) + Math.max(r.in, r.ex);
-        
+        HP lr = helper(root.left);
+        HP rr = helper(root.right);
+        rp.in = lr.ex+rr.ex+root.val;
+        rp.ex = Math.max(lr.in, lr.ex) + Math.max(rr.in, rr.ex);
         return rp;
     }
 }
