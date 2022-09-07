@@ -15,29 +15,25 @@
  */
 class Solution {
     class pair {
-        int ls = -1;
-        int rs = -1;
+        int left = -1, right = -1;
     }
     
-    int max;
+    int res;
     public int longestZigZag(TreeNode root) {
-        max = 0;
+        res = 0;
         helper(root);
-        return max;
+        return res;
     }
     
     private pair helper(TreeNode root) {
         if(root == null) return new pair();
-        
-        pair lt = helper(root.left);
-        pair rt = helper(root.right);
-        
+        pair lr = helper(root.left);
+        pair rr = helper(root.right);
         pair rp = new pair();
-        rp.ls = lt.rs + 1;
-        rp.rs = rt.ls + 1;
-        
-        max = Math.max(max, Math.max(rp.ls, rp.rs));
-        
+        rp.left = lr.right+1;
+        rp.right = rr.left+1;
+        res = Math.max(res, Math.max(rp.left, rp.right));
         return rp;
     }
+        
 }
