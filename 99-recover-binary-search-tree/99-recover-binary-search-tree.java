@@ -14,13 +14,16 @@
  * }
  */
 class Solution {
-    TreeNode first, second, prev;
+    TreeNode a1, b1, prev;
     public void recoverTree(TreeNode root) {
-        first = second = prev = null;
+        a1 = null;
+        b1 = null;
+        prev = null;
+        
         helper(root);
-        int temp = first.val;
-        first.val = second.val;
-        second.val = temp;
+        int temp = a1.val;
+        a1.val = b1.val;
+        b1.val = temp;
     }
     
     private void helper(TreeNode curr) {
@@ -28,12 +31,13 @@ class Solution {
         
         helper(curr.left);
         
-        // work
-        if(prev != null && prev.val >= curr.val){
-            if(first == null){
-                first = prev;
+        if(prev != null && prev.val > curr.val) {
+            if(a1 == null) {
+                a1 = prev;
+                b1 = curr;
+            } else {
+                b1 = curr;
             }
-            second = curr;
         }
         prev = curr;
         
