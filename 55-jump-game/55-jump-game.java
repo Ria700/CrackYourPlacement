@@ -1,17 +1,11 @@
 class Solution {
     public boolean canJump(int[] nums) {
+        // TC - O(N) | SC - O(1)
         int n = nums.length;
-        Integer[] dp = new Integer[n];
-        dp[n-1] = 0;
-        for(int i = n-2; i >= 0; i--) {
-            int steps = nums[i], min = Integer.MAX_VALUE;
-            for(int j = 1; j <= steps && i+j < n; j++) {
-                if(dp[i+j] != null) {
-                    if(min > dp[i+j]) min = dp[i+j];
-                }
-            }
-            if(min != Integer.MAX_VALUE) dp[i] = min+1;
+        int last=n-1,i,j; // last is keeping a track of last pos we have reached
+        for(i=n-2;i>=0;i--){
+            if(i+nums[i]>=last)last=i;
         }
-        return dp[0]!=null;
+        return last<=0;
     }
 }
