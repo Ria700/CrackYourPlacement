@@ -1,16 +1,15 @@
 class Solution {
-    boolean[] visited;
     public boolean canReach(int[] arr, int start) {
-        visited = new boolean[arr.length];
-        return helper(arr, start);
-    }
-    
-    public boolean helper(int[] arr, int i) {
-        if(i < 0 || i >= arr.length) return false;
-        if(arr[i] == 0) return true;
-        if(visited[i]) return false;
-        visited[i] = true;
-        if(helper(arr, i+arr[i])) return true;
-        return helper(arr, i-arr[i]);
+        Queue<Integer> q = new LinkedList<>(); // contains index
+        q.add(start);
+        while(q.size() > 0) {
+            int curr = q.remove();
+            if(arr[curr] < 0) continue; // visited
+            if(arr[curr] == 0) return true;
+            if(curr - arr[curr] >= 0) q.add(curr - arr[curr]);
+            if(curr + arr[curr] < arr.length) q.add(curr + arr[curr]);
+            arr[curr]*=-1;
+        }
+        return false;
     }
 }
