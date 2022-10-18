@@ -1,6 +1,6 @@
 class Solution {
     public String countAndSay(int n) {
-        if(n <= 1) return "1";
+        if(n == 1) return "1";
         
         String s = countAndSay(n-1);
         return countAndSay_(s);
