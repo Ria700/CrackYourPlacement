@@ -1,31 +1,33 @@
 class Solution {
     public int[] sortEvenOdd(int[] nums) {
-        if(nums.length<3)
-        return nums;
-        List<Integer> odd=new ArrayList<>();
-        List<Integer> even=new ArrayList<>();
-        int ans[]=new int[nums.length];
-        for(int i=0;i<nums.length;i++)
-        {
-            if (i%2 == 0) 
-                even.add(nums[i]);
-                else 
-                odd.add(nums[i]);
+        int[] even = new int[101];
+        int[] odd = new int[101];
+        int length = nums.length;
+        for (int i = 0; i < length; ++i) {
+            if (i % 2 == 0) {
+                even[nums[i]]++;
+            } else {
+                odd[nums[i]]++;
             }
-        
-        Collections.sort(even);
-        Collections.sort(odd);
-        Collections.reverse(odd);
-		
-        int j=0;
-        int k=0;
-        for(int i=0;i<nums.length;i++)
-        {
-             if (i%2 == 0) 
-               ans[i]=even.get(j++);
-             else 
-               ans[i]=odd.get(k++);
         }
-        return ans;
+        int e = 0;
+        int o = 100;
+        for (int i = 0; i < length; ++i) {
+            if (i % 2 == 0) {
+                // check even
+                while (even[e] == 0) {
+                    ++e;
+                }
+                nums[i] = e;
+                even[e]--;
+            } else {
+                while(odd[o] == 0) {
+                    --o;
+                }
+                nums[i] = o;
+                odd[o]--;
+            }
+        }
+        return nums;
     }
 }
