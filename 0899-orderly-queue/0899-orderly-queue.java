@@ -3,9 +3,9 @@ class Solution {
         if (k == 1) { // if k == 1 -> brute force
             String ans = s;
             for (int i = 0; i < s.length(); ++i) {
-                String temp = s.substring(i) + s.substring(0, i);
-                if (temp.compareTo(ans) < 0) {
-                    ans = temp;
+                s = s.substring(1) + s.charAt(0);
+                if (s.compareTo(ans) < 0) {
+                    ans = s;
                 }
             }
             return ans;
